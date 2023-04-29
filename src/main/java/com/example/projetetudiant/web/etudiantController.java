@@ -42,11 +42,7 @@ public class etudiantController {
         model.addAttribute("etudiant",new etudiant());
         return "add";
     }
-    @GetMapping("/SignIn")
-    public String SignIn(Model model){
-        model.addAttribute("etudiant",new etudiant());
-        return "SignIn";
-    }
+
 
     @PostMapping("/admin/save")
     public String saveEtu(Model model, @Valid etudiant etudiant, BindingResult bindingResult){
@@ -75,4 +71,23 @@ public class etudiantController {
     public String racine(){
         return "racine.html";
     }
+    @GetMapping("/SignUser")
+    public String SignUser(Model model){
+        return "SignUser.html";
+    }
+    @GetMapping("/SignEtudiant")
+    public String SignEtudiant(Model model){
+        return "SignEtudiant.html";
+    }
+    /*
+    @RequestMapping("/")
+    public String SignUser(){
+        return "/SignUser.html";
+    }
+    @RequestMapping("/")
+    public String SignEtudiant(){
+        return "/SignEtudiant.html";
+    }
+
+     */
 }

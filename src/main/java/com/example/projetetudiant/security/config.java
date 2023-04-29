@@ -35,12 +35,19 @@ public class config extends WebSecurityConfigurerAdapter {
         */
             http.authorizeRequests()
                     .antMatchers("/").permitAll()
-                    .antMatchers("/SignIn").permitAll()
+                    .antMatchers("/SignEtudiant").permitAll()
+                    .antMatchers("/SignUser").permitAll()
                     .antMatchers("/webjars/**").permitAll()
                     .antMatchers("/css/**", "/js/**").permitAll()
                     .antMatchers("/image/**").permitAll() // add this line for image files
                     .anyRequest().authenticated();
-            http.formLogin();
+         //   http.formLogin();
+        http
+                .formLogin()
+                .loginPage("/")
+                .usernameParameter("user")
+                .passwordParameter("passwd")
+                .defaultSuccessUrl("/home");
             http.exceptionHandling().accessDeniedPage("/403");
 
     }
