@@ -34,7 +34,7 @@ public class etudiantController {
     public String delete(Long id,int page, String key){
 
            etudiantRepository.deleteById(id);
-        return "redirect:/user/home?page="+page+"&&key="+key;
+        return "redirect:/user/home?page="+page+ "&key=" +key;
     }
 
     @GetMapping("/admin/add")
@@ -63,11 +63,11 @@ public class etudiantController {
     public String saveEdit(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
         if(bindingResult.hasErrors())return "edit";
         etudiantRepository.save(etudiant);
-        return "redirect:/user/home?page="+page+"&key="+key;
+        return "redirect:/user/home?page="+page+ "&key=" +key;
     }
 
     @GetMapping("/")
     public String racine(){
-        return "racine";
+        return "racine.html";
     }
 }

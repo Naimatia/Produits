@@ -32,7 +32,7 @@ public class etudiant {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateNiassance;
     private boolean enRegle;
-    @Enumerated(javax.persistence.EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private genre genre;
 
 }

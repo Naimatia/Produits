@@ -21,12 +21,26 @@ public class config extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin();
+       /* http.formLogin();
         http.authorizeRequests().antMatchers("/").permitAll();
         http.authorizeRequests().antMatchers("/webjars/**").permitAll();
-      //  http.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN");
+       // http.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN");
       //  http.authorizeRequests().antMatchers("/user/**").hasAuthority("USER");
         http.exceptionHandling().accessDeniedPage("/403");
         http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/css/**", "/js/**").permitAll();
+
+
+
+        */
+            http.authorizeRequests()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/webjars/**").permitAll()
+                    .antMatchers("/css/**", "/js/**").permitAll()
+                    .antMatchers("/image/**").permitAll() // add this line for image files
+                    .anyRequest().authenticated();
+            http.formLogin();
+            http.exceptionHandling().accessDeniedPage("/403");
+
     }
 }

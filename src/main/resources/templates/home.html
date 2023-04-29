@@ -26,7 +26,7 @@
                  <td th:text="${e.dateNiassance}"></td>
                  <td th:text="${e.genre}"></td>
                  <td th:text="${e.enRegle}"></td>
-                 <td>
+                 <td>+8
                      <a class="btn btn-outline-danger" th:href="@{/admin/delete(id=${e.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Delete</a>
                  </td>
                  <td>

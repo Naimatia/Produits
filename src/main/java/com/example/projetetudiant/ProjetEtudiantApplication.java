@@ -21,7 +21,7 @@ public class ProjetEtudiantApplication {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
 
-    // @Bean
+   // @Bean
     CommandLineRunner start(etudiantRepository etudiantRepository){
         return  args -> {
 
@@ -38,23 +38,23 @@ public class ProjetEtudiantApplication {
         };
     }
 
-    @Bean
+  //@Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
             serviceImpl.addUser("naim","1234","1234");
-            serviceImpl.addUser("hamza","0000","0000");
+          serviceImpl.addUser("hamza","0000","0000");
 
-            serviceImpl.addRole("USER","");
-            serviceImpl.addRole("ADMIN","");
-            serviceImpl.addRoleToUser("naim","USER");
-            serviceImpl.addRoleToUser("hamza","ADMIN");
+          serviceImpl.addRole("USER","");
+          serviceImpl.addRole("ADMIN","");
+           serviceImpl.addRoleToUser("naim","USER");
+          serviceImpl.addRoleToUser("hamza","ADMIN");
 
         } ;
     }
 
     @Bean
-    PasswordEncoder getPasswordEncoder(){
+   PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
-    }
+   }
 
 }
