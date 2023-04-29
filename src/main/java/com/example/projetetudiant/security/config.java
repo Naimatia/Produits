@@ -35,6 +35,7 @@ public class config extends WebSecurityConfigurerAdapter {
         */
             http.authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/SignIn").permitAll()
                     .antMatchers("/webjars/**").permitAll()
                     .antMatchers("/css/**", "/js/**").permitAll()
                     .antMatchers("/image/**").permitAll() // add this line for image files

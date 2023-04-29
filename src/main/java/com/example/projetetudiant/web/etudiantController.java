@@ -42,6 +42,11 @@ public class etudiantController {
         model.addAttribute("etudiant",new etudiant());
         return "add";
     }
+    @GetMapping("/SignIn")
+    public String SignIn(Model model){
+        model.addAttribute("etudiant",new etudiant());
+        return "SignIn";
+    }
 
     @PostMapping("/admin/save")
     public String saveEtu(Model model, @Valid etudiant etudiant, BindingResult bindingResult){
