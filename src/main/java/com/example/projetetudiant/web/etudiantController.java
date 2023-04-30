@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -83,15 +84,12 @@ public class etudiantController {
     public String InterfaceEtudiant(Model model){
         return "InterfaceEtudiant.html";
     }
-    /*
-    @RequestMapping("/")
-    public String SignUser(){
-        return "/SignUser.html";
-    }
-    @RequestMapping("/")
-    public String SignEtudiant(){
-        return "/SignEtudiant.html";
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // perform logout actions, e.g., invalidate session
+        request.getSession().invalidate();
+        // redirect to login page
+        return "redirect:/SignUser";
     }
 
-     */
 }

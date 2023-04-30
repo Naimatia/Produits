@@ -38,7 +38,7 @@ public class config extends WebSecurityConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/SignEtudiant").permitAll()
                     .antMatchers("/SignUser").permitAll()
-                    .antMatchers("/InterfaceEtudiant").permitAll()
+                   // .antMatchers("/InterfaceEtudiant").permitAll()
                     .antMatchers("/webjars/**").permitAll()
                     .antMatchers("/css/**", "/js/**").permitAll()
                     .antMatchers("/image/**").permitAll() // add this line for image files
@@ -49,16 +49,17 @@ public class config extends WebSecurityConfigurerAdapter {
                    .permitAll()
                    .and()
            .logout()
-                .logoutUrl("/SignUser")
-                .logoutSuccessUrl("/SignUser")
-                .permitAll();
-        http.formLogin()
+                   .logoutUrl("/logout")
+                   .logoutSuccessUrl("/logout")
+                   .invalidateHttpSession(true)
+                   .permitAll();
+      /*  http.formLogin()
                 .loginPage("/SignEtudiant")
                 .defaultSuccessUrl("/InterfaceEtudiant")
                 .permitAll()
                 .and();
             http.exceptionHandling().accessDeniedPage("/403");
-
+*/
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
