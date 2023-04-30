@@ -1,8 +1,11 @@
 package com.example.projetetudiant;
 
 import com.example.projetetudiant.EnumType.genre;
+import com.example.projetetudiant.EnumType.role;
 import com.example.projetetudiant.entities.etudiant;
+import com.example.projetetudiant.entities.responsable;
 import com.example.projetetudiant.repositories.etudiantRepository;
+import com.example.projetetudiant.repositories.responsableRepository;
 import com.example.projetetudiant.security.services.iservice;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +37,21 @@ public class ProjetEtudiantApplication {
                 e.setEnRegle(Math.random()<0.5?true:false);
                 e.setDateNiassance(new Date());
                 etudiantRepository.save(e);
+            });
+        };
+    }
+     @Bean
+    CommandLineRunner start3(responsableRepository responsableRepository){
+        return  args -> {
+
+            Stream.of("mohammed","ahmed","kamal","farah","najat","fouad").forEach(name->{
+                responsable r=new responsable();
+                r.setNom(name);
+                r.setPrenom("bentest");
+                r.setEmail(name+"@gmail.com");
+                r.setRole(Math.random()<0.5?role.PROFESSEUR:role.CHEFDEP);
+                r.setDateDebutTravail(new Date());
+                responsableRepository.save(r);
             });
         };
     }

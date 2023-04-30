@@ -10,41 +10,37 @@
     <div  class="container form-control bg-primary bg-opacity-50">
         <form method="post" th:action="@{/admin/saveEdit(page=${page},key=${key})}">
             <div class="mb-3 text-center bg-success bg-opacity-50 pb-2">
-                <h2>Modifier L'étudiant</h2>
+                <h2>Modifier Le Responsable</h2>
             </div>
             <div class="mb-3">
                 <label for="id" class="form-label">ID</label>
-                <label th:text="${etudiant.id}"/>
-                <input type="text" class="form-control visually-hidden" id="id" aria-describedby="emailHelp" name="id" th:value="${etudiant.id}">
+                <label th:text="${responsable.id}"/>
+                <input type="text" class="form-control visually-hidden" id="id" aria-describedby="emailHelp" name="id" th:value="${responsable.id}">
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="nom" th:value="${etudiant.nom}">
-                <span th:errors="${etudiant.nom}"></span>
+                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="nom" th:value="${responsable.nom}">
+                <span th:errors="${responsable.nom}"></span>
             </div>
             <div class="mb-3">
                 <label for="prenom" class="form-label">Prenom</label>
-                <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${etudiant.prenom}">
-                <span th:errors="${etudiant.prenom}"></span>
+                <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${responsable.prenom}">
+                <span th:errors="${responsable.prenom}"></span>
             </div>
             <div class="mb-3">
                 <label for="Email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" th:value="${etudiant.email}">
-                <span th:errors="${etudiant.email}"></span>
+                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" th:value="${responsable.email}">
+                <span th:errors="${responsable.email}"></span>
             </div>
             <div class="mb-3">
-                <label for="dt" class="form-label">Date de naissance</label>
-                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateNiassance" th:value="${etudiant.dateNiassance}">
-                <span th:errors="${etudiant.dateNiassance}"></span>
+                <label for="dt" class="form-label">Date Debut Travail</label>
+                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${responsable.dateDebutTravail}">
+                <span th:errors="${responsable.dateDebutTravail}"></span>
             </div>
-            <select class="form-select" aria-label="Default select example" name="genre" th:value="${etudiant.genre}">
-                <option value="MASCULIN">MASCULIN</option>
-                <option value="FEMININ">FEMININ</option>
+            <select class="form-select" aria-label="Default select example" name="role" th:value="${responsable.role}">
+                <option value="PROFESSEUR">Professeur</option>
+                <option value="CHEFDEP">ChefDep</option>
             </select>
-            <div class="mb-3 form-check">
-                <label class="form-check-label" for="exampleCheck1" th:checked="${etudiant.enRegle}">Est en régle</label>
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="enRegle">
-            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Edit</button>
             </div>

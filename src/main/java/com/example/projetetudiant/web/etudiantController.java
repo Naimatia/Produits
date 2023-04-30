@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class etudiantController {
     private etudiantRepository etudiantRepository;
 
-    @GetMapping("/user/home")
+   // @GetMapping("/user/home")
     public String home(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
                                     @RequestParam(name = "size",defaultValue = "6") int size,
                                     @RequestParam(name = "key",defaultValue = "") String key
@@ -31,28 +31,28 @@ public class etudiantController {
            model.addAttribute("pageCurrent",page);
         return "home";
     }
-    @GetMapping(value = "/admin/delete")
+   // @GetMapping(value = "/admin/delete")
     public String delete(Long id,int page, String key){
 
            etudiantRepository.deleteById(id);
         return "redirect:/user/home?page="+page+ "&key=" +key;
     }
 
-    @GetMapping("/admin/add")
+   // @GetMapping("/admin/add")
     public String add(Model model){
         model.addAttribute("etudiant",new etudiant());
         return "add";
     }
 
 
-    @PostMapping("/admin/save")
+   // @PostMapping("/admin/save")
     public String saveEtu(Model model, @Valid etudiant etudiant, BindingResult bindingResult){
         if (bindingResult.hasErrors())return "add";
         etudiantRepository.save(etudiant);
         return "redirect:/user/home";
     }
 
-    @GetMapping("/admin/edit")
+    //@GetMapping("/admin/edit")
     public  String edit(Model model, Long id, int page,String key){
         etudiant etudiant=etudiantRepository.findById(id).orElse(null);
         model.addAttribute("etudiant",etudiant);
@@ -61,7 +61,7 @@ public class etudiantController {
         return "edit";
     }
 
-       @PostMapping("/admin/saveEdit")
+    //   @PostMapping("/admin/saveEdit")
     public String saveEdit(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
         if(bindingResult.hasErrors())return "edit";
         etudiantRepository.save(etudiant);

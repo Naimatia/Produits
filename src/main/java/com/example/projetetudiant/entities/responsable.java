@@ -1,6 +1,7 @@
 package com.example.projetetudiant.entities;
 
 import com.example.projetetudiant.EnumType.genre;
+import com.example.projetetudiant.EnumType.role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,16 +11,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
-
 import java.util.Date;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class etudiant {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class responsable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
     @Size(min = 2,max = 8)
@@ -28,11 +27,13 @@ public class etudiant {
     private String prenom;
     @Email
     private String email;
-
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateNiassance;
-    private boolean enRegle;
+    private Date dateDebutTravail;
     @Enumerated(EnumType.STRING)
-    private genre genre;
+    private role role;
+
+    public void setRole(role role) {
+        this.role = role;
+    }
 }
