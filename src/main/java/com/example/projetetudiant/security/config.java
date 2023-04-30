@@ -2,6 +2,7 @@ package com.example.projetetudiant.security;
 
 import com.example.projetetudiant.security.services.userDetailsService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,18 +38,32 @@ public class config extends WebSecurityConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/SignEtudiant").permitAll()
                     .antMatchers("/SignUser").permitAll()
+                    .antMatchers("/InterfaceEtudiant").permitAll()
                     .antMatchers("/webjars/**").permitAll()
                     .antMatchers("/css/**", "/js/**").permitAll()
                     .antMatchers("/image/**").permitAll() // add this line for image files
                     .anyRequest().authenticated();
-         //   http.formLogin();
-        http
-                .formLogin()
-                .loginPage("/")
-                .usernameParameter("user")
-                .passwordParameter("passwd")
-                .defaultSuccessUrl("/home");
+           http.formLogin()
+                .loginPage("/SignUser")
+                   .defaultSuccessUrl("/user/home")
+                   .permitAll()
+                   .and()
+           .logout()
+                .logoutUrl("/SignUser")
+                .logoutSuccessUrl("/SignUser")
+                .permitAll();
+        http.formLogin()
+                .loginPage("/SignEtudiant")
+                .defaultSuccessUrl("/InterfaceEtudiant")
+                .permitAll()
+                .and();
             http.exceptionHandling().accessDeniedPage("/403");
 
+    }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("user").password("{noop}password").roles("USER"); // add a test user
     }
 }

@@ -79,6 +79,10 @@ public class etudiantController {
     public String SignEtudiant(Model model){
         return "SignEtudiant.html";
     }
+    @GetMapping("/InterfaceEtudiant")
+    public String InterfaceEtudiant(Model model){
+        return "InterfaceEtudiant.html";
+    }
     /*
     @RequestMapping("/")
     public String SignUser(){
