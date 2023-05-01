@@ -57,11 +57,41 @@ public class ImplServices implements iservice {
         if (appRole==null) throw new RuntimeException("role not found");
         appUser.getListRoles().remove(appRole);
     }
+    @Override
+    public void removeUser(String username) {
+        appUser appUser = appUserRep.findByUsername(username);
+        if (appUser == null) throw new RuntimeException("user not found");
+        appUserRep.delete(appUser);
+    }
+    @Override
+    public void editUser(String username, String password, String rePassword) {
+        appUser appUser = appUserRep.findByUsername(username);
+        if (appUser == null) throw new RuntimeException("user not found");
+        if (!password.equals(rePassword)) throw new RuntimeException("les mots de passe ne correspondent pas");
+        appUser.setPassword(passwordEncoder.encode(password));
+        appUserRep.save(appUser);
+    }
+    @Override
+    public void deleteUserAndRoles(String username) {
+        appUser appUser=appUserRep.findByUsername(username);
+        if(appUser==null) throw new RuntimeException("User not found");
+
+        // Remove user's roles
+        appUser.getListRoles().clear();
+
+        // Delete user
+        appUserRep.delete(appUser);
+    }
 
     @Override
     public appUser loadUserByUsername(String username) {
         appUser appUser=appUserRep.findByUsername(username);
         if(appUser==null) throw new RuntimeException("User not found");
         return appUser;
+    }
+
+    @Override
+    public Object getAllRoles() {
+        return null;
     }
 }

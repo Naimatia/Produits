@@ -15,13 +15,13 @@
                         <a class="nav-link active" th:href="@{/admin/home}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/user/home}">Chercher</a>
+                        <a class="nav-link active" th:href="@{/admin/home}">Chercher</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/admin/add}" sec:authorize="hasAuthority('ADMIN')">Ajouter</a>
                     </li>
                     <li class="nav-item">
-                        <!-- Example single danger button -->
+                        <!-- Example single danger button
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Etudiants
@@ -30,7 +30,7 @@
                                 <li><a class="dropdown-item" th:href="@{/user/home}" >Chercher</a></li>
                                 <li><a class="dropdown-item" th:href="@{/admin/add}" sec:authorize="hasAuthority('ADMIN')">Ajouter</a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </li>
                 </ul>
              <ul class="nav nav-pills">

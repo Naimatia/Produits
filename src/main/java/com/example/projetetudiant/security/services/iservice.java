@@ -8,5 +8,10 @@ public interface iservice {
     appRole addRole(String rolename,String description);
     void addRoleToUser(String username,String rolename);
     void removeRoleFromUser(String username, String rolename);
+    void removeUser(String username);
+    void editUser(String username, String password, String rePassword);
+    void deleteUserAndRoles(String username);
     appUser loadUserByUsername(String username);
+
+    Object getAllRoles();
 }

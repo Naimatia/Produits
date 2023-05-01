@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface appUserRep extends JpaRepository<appUser,String> {
     appUser findByUsername(String username);
+    void deleteByUsername(String username);
+
 }

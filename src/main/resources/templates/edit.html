@@ -13,14 +13,9 @@
                 <h2>Modifier Le Responsable</h2>
             </div>
             <div class="mb-3">
-                <label for="id" class="form-label">ID</label>
-                <label th:text="${responsable.id}"/>
-                <input type="text" class="form-control visually-hidden" id="id" aria-describedby="emailHelp" name="id" th:value="${responsable.id}">
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="nom" th:value="${responsable.nom}">
-                <span th:errors="${responsable.nom}"></span>
+                <label class="form-label">Nom</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp"  name="nom" th:value="${responsable.nom}">
+                <span th:errors="${responsable.nom}" ></span>
             </div>
             <div class="mb-3">
                 <label for="prenom" class="form-label">Prenom</label>
@@ -33,14 +28,22 @@
                 <span th:errors="${responsable.email}"></span>
             </div>
             <div class="mb-3">
-                <label for="dt" class="form-label">Date Debut Travail</label>
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" aria-describedby="emailHelp" name="password" th:value="${appUser.password}">
+                <span th:errors="${appUser.password}"></span>
+            </div>
+            <div class="mb-3">
+                <label for="dt" class="form-label">Date debut travail</label>
                 <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${responsable.dateDebutTravail}">
                 <span th:errors="${responsable.dateDebutTravail}"></span>
             </div>
-            <select class="form-select" aria-label="Default select example" name="role" th:value="${responsable.role}">
-                <option value="PROFESSEUR">Professeur</option>
-                <option value="CHEFDEP">ChefDep</option>
-            </select>
+            <div class="mb-3">
+                <select class="form-select" aria-label="Default select example" name="role" th:value="${responsable.role}">
+                    <option value="PROFESSEUR">PROFESSEUR</option>
+                    <option value="CHEFDEP">CHEFDEP</option>
+                </select>
+                <span th:errors="${responsable.role}"></span>
+            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Edit</button>
             </div>

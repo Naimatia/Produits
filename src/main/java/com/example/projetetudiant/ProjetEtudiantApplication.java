@@ -24,23 +24,7 @@ public class ProjetEtudiantApplication {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
 
-   // @Bean
-    CommandLineRunner start(etudiantRepository etudiantRepository){
-        return  args -> {
-
-            Stream.of("mohammed","ahmed","kamal","farah","najat","fouad").forEach(name->{
-                etudiant e=new etudiant();
-                e.setNom(name);
-                e.setPrenom("bentest");
-                e.setEmail(name+"@gmail.com");
-                e.setGenre(Math.random()<0.5?genre.MASCULIN:genre.FEMININ);
-                e.setEnRegle(Math.random()<0.5?true:false);
-                e.setDateNiassance(new Date());
-                etudiantRepository.save(e);
-            });
-        };
-    }
-     @Bean
+  //   @Bean
     CommandLineRunner start3(responsableRepository responsableRepository){
         return  args -> {
 
@@ -59,12 +43,13 @@ public class ProjetEtudiantApplication {
   @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
-            serviceImpl.addUser("naim","1234","1234");
+            //serviceImpl.addUser("naim","1234","1234");
           serviceImpl.addUser("hamza","0000","0000");
-
-          serviceImpl.addRole("USER","");
           serviceImpl.addRole("ADMIN","");
-          serviceImpl.addRoleToUser("naim","USER");
+          serviceImpl.addRole("CHEFDEP","");
+          serviceImpl.addRole("PROFESSEUR","");
+
+         //   serviceImpl.addRoleToUser("naim","USER");
          serviceImpl.addRoleToUser("hamza","ADMIN");
 
         } ;
