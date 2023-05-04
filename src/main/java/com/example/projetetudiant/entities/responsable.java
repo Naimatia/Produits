@@ -36,4 +36,16 @@ public class responsable {
     public void setRole(role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "responsable{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", dateDebutTravail=" + dateDebutTravail +
+                ", role=" + role +
+                '}';
+    }
 }

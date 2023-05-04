@@ -141,8 +141,8 @@ public class responsableController {
         appUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
         serviceImpl.editUser(appUser.getUsername(), appUser.getPassword(), appUser.getPassword());
         String roleName;
-        roleName = String.valueOf(responsable.getRole());
-        serviceImpl.addRoleToUser(appUser.getUsername(), roleName);
+       roleName = String.valueOf(responsable.getRole());
+       serviceImpl.addRoleToUser(appUser.getUsername(), roleName);
 
         return "redirect:/admin/home?page="+page+ "&key=" +key;
     }

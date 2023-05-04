@@ -79,8 +79,23 @@ public class etudiantController {
 
     @GetMapping("/SignEtudiant")
     public String SignEtudiant(Model model){
+        model.addAttribute("etudiant", new etudiant());
         return "SignEtudiant.html";
     }
+    @PostMapping("/SignEtudiant")
+    public String processSignupForm(@ModelAttribute etudiant etudiant) {
+        // Traitez l'étudiant ici
+        etudiantRepository.save(etudiant);
+        // Enregistrez-le dans la base de données, par exemple
+        return "SignEtudiant.html";
+    }
+
+    //@GetMapping("/signup")
+    public String showSignupForm(Model model) {
+
+        return "SignEtudiant.html";
+    }
+
 
     @GetMapping("/InterfaceEtudiant")
     public String InterfaceEtudiant(Model model){
