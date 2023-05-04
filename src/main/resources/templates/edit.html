@@ -4,47 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- Ajouter les liens vers les fichiers CSS et JavaScript de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="col-md-9 container rounded bg-primary bg-opacity-50" layout:fragment="contentBody">
-    <div  class="container form-control bg-primary bg-opacity-50">
+<div layout:fragment="contentBody">
+    <div class="container">
         <form method="post" th:action="@{/admin/saveEdit(page=${page},key=${key})}">
-            <div class="mb-3 text-center bg-success bg-opacity-50 pb-2">
+            <div>
                 <h2>Modifier Le Responsable</h2>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Nom</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp"  name="nom" th:value="${responsable.nom}">
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="nom" th:value="${responsable.nom}">
                 <span th:errors="${responsable.nom}" ></span>
             </div>
-            <div class="mb-3">
-                <label for="prenom" class="form-label">Prenom</label>
+            <div class="form-group">
+                <label for="prenom">Prenom</label>
                 <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${responsable.prenom}">
                 <span th:errors="${responsable.prenom}"></span>
             </div>
-            <div class="mb-3">
-                <label for="Email" class="form-label">Email</label>
+            <div class="form-group">
+                <label for="Email" >Email</label>
                 <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" th:value="${responsable.email}">
                 <span th:errors="${responsable.email}"></span>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+            <div class="form-group">
+                <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" aria-describedby="emailHelp" name="password" th:value="${appUser.password}">
                 <span th:errors="${appUser.password}"></span>
             </div>
-            <div class="mb-3">
-                <label for="dt" class="form-label">Date debut travail</label>
+            <div class="form-group">
+                <label for="dt">Date debut travail</label>
                 <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${responsable.dateDebutTravail}">
                 <span th:errors="${responsable.dateDebutTravail}"></span>
             </div>
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default select example" name="role" th:value="${responsable.role}">
+            <div class="form-group">
+                <select class="form-control" aria-label="Default select example" name="role" th:value="${responsable.role}">
                     <option value="PROFESSEUR">PROFESSEUR</option>
                     <option value="CHEFDEP">CHEFDEP</option>
                 </select>
                 <span th:errors="${responsable.role}"></span>
             </div>
-            <div class="text-center">
+            <div>
                 <button type="submit" class="btn btn-primary">Edit</button>
             </div>
         </form>

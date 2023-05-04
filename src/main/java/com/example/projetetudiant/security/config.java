@@ -8,63 +8,44 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class config extends WebSecurityConfigurerAdapter {
     private userDetailsService userDetailsService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       /* http.formLogin();
-        http.authorizeRequests().antMatchers("/").permitAll();
-        http.authorizeRequests().antMatchers("/webjars/**").permitAll();
-       // http.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN");
-      //  http.authorizeRequests().antMatchers("/user/**").hasAuthority("USER");
-        http.exceptionHandling().accessDeniedPage("/403");
-        http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests().antMatchers("/css/**", "/js/**").permitAll();
-
-
-
-        */
-            http.authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/SignEtudiant").permitAll()
-                    .antMatchers("/SignUser").permitAll()
-                   // .antMatchers("/InterfaceEtudiant").permitAll()
-                    .antMatchers("/webjars/**").permitAll()
-                    .antMatchers("/css/**", "/js/**").permitAll()
-                    .antMatchers("/image/**").permitAll() // add this line for image files
-                    .anyRequest().authenticated();
-           http.formLogin()
+        http.authorizeRequests()
+                .antMatchers("/", "/SignEtudiant", "/SignResponsable", "/SignUser", "/webjars/**", "/css/**", "/js/**", "/image/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/InterfaceProfesseur/**").hasAnyAuthority("PROFESSEUR", "CHEFDEP")
+                .antMatchers("/error").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
                 .loginPage("/SignUser")
-                   .defaultSuccessUrl("/admin/home")
-                   .permitAll()
-                   .and()
-           .logout()
-                   .logoutUrl("/logout")
-                   .logoutSuccessUrl("/logout")
-                   .invalidateHttpSession(true)
-                   .permitAll();
-      /*  http.formLogin()
-                .loginPage("/SignEtudiant")
-                .defaultSuccessUrl("/InterfaceEtudiant")
+                .defaultSuccessUrl("/admin/home")
                 .permitAll()
-                .and();
-            http.exceptionHandling().accessDeniedPage("/403");
-*/
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout")
+                .invalidateHttpSession(true)
+                .permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/403");
     }
+
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER"); // add a test user
+        auth.inMemoryAuthentication()
+                .withUser("user").password("{noop}password").authorities("USER"); // add a test user with authority
     }
 }

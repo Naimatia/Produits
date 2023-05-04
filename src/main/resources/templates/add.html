@@ -4,48 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Responsable</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div class="col-md-9 container rounded bg-primary bg-opacity-50" layout:fragment="contentBody">
-    <div class="container form-control bg-primary bg-opacity-50 p-3">
+<div layout:fragment="contentBody">
+    <div class="container mt-4">
         <form method="post" th:action="@{/admin/save}">
-            <div class="mb-3 text-center bg-success bg-opacity-50 pb-2">
+            <div class="form-group">
                 <h2>Ajouter un Responsable</h2>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Nom</label>
+            <div class="form-group">
+                <label class="col-form-label">Nom</label>
                 <input type="text" class="form-control" name="nom" th:value="${responsable.nom}">
-                <span th:errors="${responsable.nom}" ></span>
+                <span th:errors="${responsable.nom}" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Prenom</label>
+            <div class="form-group">
+                <label class="col-form-label">Prenom</label>
                 <input type="text" class="form-control" name="prenom" th:value="${responsable.prenom}">
-                <span th:errors="${responsable.prenom}"></span>
+                <span th:errors="${responsable.prenom}" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
+            <div class="form-group">
+                <label class="col-form-label">Email</label>
                 <input type="email" class="form-control" name="email" th:value="${responsable.email}">
-                <span th:errors="${responsable.email}"></span>
+                <span th:errors="${responsable.email}" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
+            <div class="form-group">
+                <label class="col-form-label">Password</label>
                 <input type="password" class="form-control" name="password" th:value="${appUser.password}">
-                <span th:errors="${appUser.password}"></span>
+                <span th:errors="${appUser.password}" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Date debut travail</label>
+            <div class="form-group">
+                <label class="col-form-label">Date debut travail</label>
                 <input type="date" class="form-control" name="dateDebutTravail" th:value="${responsable.dateDebutTravail}">
-                <span th:errors="${responsable.dateDebutTravail}"></span>
+                <span th:errors="${responsable.dateDebutTravail}" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default select example" name="role" th:value="${responsable.role}">
+            <div class="form-group">
+                <label class="col-form-label">Role</label>
+                <select class="form-control" aria-label="Default select example" name="role" th:value="${responsable.role}">
                     <option value="PROFESSEUR">Professeur</option>
                     <option value="CHEFDEP">ChefDep</option>
                 </select>
-                <span th:errors="${responsable.role}"></span>
+                <span th:errors="${responsable.role}" class="text-danger"></span>
             </div>
 
-            <div class="text-center">
+            <div class="form-group">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
 
@@ -53,5 +56,7 @@
     </div>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
-</html>

@@ -12,14 +12,14 @@
     <div class="container-fluid">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" th:href="@{/teacher/home}">Home</a>
+          <a class="nav-link active" th:href="@{/professeur/InterfaceProfesseur}">Home</a>
+        </li>
+      <!--  <li class="nav-item">
+          <a class="nav-link active" th:href="@{/admin/students}">Étudiants</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" th:href="@{/teacher/students}">Étudiants</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" th:href="@{/teacher/add}" sec:authorize="hasAuthority('ROLE_PROF')">Ajouter un étudiant</a>
-        </li>
+          <a class="nav-link active" th:href="@{/admin/add}" sec:authorize="hasAuthority('ROLE_PROF')">Ajouter un étudiant</a>
+        </li>-->
       </ul>
       <ul class="nav nav-pills">
         <div class="btn-group" sec:authorize="isAuthenticated()">
@@ -37,7 +37,7 @@
     </div>
   </nav>
 </div>
-<section layout:fragment="contentBody">
+<section layout:fragment="contentBody1">
   <!-- Ajoutez le contenu pour la page d'ajout d'un étudiant ici -->
 </section>
 </body>

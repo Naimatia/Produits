@@ -147,13 +147,19 @@ public class responsableController {
         return "redirect:/admin/home?page="+page+ "&key=" +key;
     }
 
-/*
-    @GetMapping("/admin/edit")
-    public  String edit(Model model, Long id, int page,String key){
-        responsable responsable=responsableRepository.findById(id).orElse(null);
-        model.addAttribute("responsable",responsable);
-        model.addAttribute("page",page);
-        model.addAttribute("key",key);
+    @GetMapping("/admin/edit-form")
+    public String editForm(Model model, Long id, int page,String key) {
+        // Fetch the responsable by id
+        responsable responsable = responsableRepository.findById(id).orElse(null);
+        if (responsable == null) throw new RuntimeException("Responsable not found");
+
+        // Add the responsable and other necessary data to the model
+        model.addAttribute("responsable", responsable);
+        model.addAttribute("appUser", new appUser());
+        model.addAttribute("roles", serviceImpl.getAllRoles());
+        model.addAttribute("page", page);
+        model.addAttribute("key", key);
+
         return "edit";
     }
 
@@ -163,6 +169,5 @@ public class responsableController {
         responsableRepository.save(responsable);
         return "redirect:/admin/home?page="+page+ "&key=" +key;
     }
-*/
 
 }

@@ -43,13 +43,13 @@ public class ProjetEtudiantApplication {
   @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
-            //serviceImpl.addUser("naim","1234","1234");
+            serviceImpl.addUser("naim","1234","1234");
           serviceImpl.addUser("hamza","0000","0000");
           serviceImpl.addRole("ADMIN","");
           serviceImpl.addRole("CHEFDEP","");
           serviceImpl.addRole("PROFESSEUR","");
 
-         //   serviceImpl.addRoleToUser("naim","USER");
+            serviceImpl.addRoleToUser("naim","PROFESSEUR");
          serviceImpl.addRoleToUser("hamza","ADMIN");
 
         } ;
