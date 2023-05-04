@@ -76,7 +76,7 @@ public class etudiantController {
     public String SignUser(Model model){
         return "SignUser.html";
     }
-
+/*
     @GetMapping("/SignEtudiant")
     public String SignEtudiant(Model model){
         model.addAttribute("etudiant", new etudiant());
@@ -96,6 +96,20 @@ public class etudiantController {
         return "SignEtudiant.html";
     }
 
+ */
+@GetMapping("/SignEtudiant")
+public String SignEtudiant(Model model){
+    model.addAttribute("etudiant",new etudiant());
+    return "SignEtudiant.html";
+}
+
+    @PostMapping("/SignEtudiant")
+    public String processSignupForm(Model model, @Valid etudiant etudiant, BindingResult bindingResult){
+        if (bindingResult.hasErrors())
+            return "SignEtudiant";
+        etudiantRepository.save(etudiant);
+        return "redirect:/SignEtudiant.html";
+    }
 
     @GetMapping("/InterfaceEtudiant")
     public String InterfaceEtudiant(Model model){
