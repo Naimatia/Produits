@@ -1,6 +1,5 @@
 package com.example.projetetudiant.entities;
 
-import com.example.projetetudiant.EnumType.genre;
 import com.example.projetetudiant.EnumType.role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +15,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class responsable {
+public class employe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +38,7 @@ public class responsable {
 
     @Override
     public String toString() {
-        return "responsable{" +
+        return "employe{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +

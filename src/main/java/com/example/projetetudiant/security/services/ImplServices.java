@@ -5,12 +5,10 @@ import com.example.projetetudiant.security.entities.appUser;
 import com.example.projetetudiant.security.repository.appRoleRep;
 import com.example.projetetudiant.security.repository.appUserRep;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
 @Service
 @Transactional
 @AllArgsConstructor
@@ -25,7 +23,7 @@ public class ImplServices implements iservice {
             if(!password.equals(rePassword)) throw new RuntimeException("les mots de passe ne correspondent pas");
                 appUser1=new appUser();
                 appUser1.setUsername(username);
-                appUser1.setId(UUID.randomUUID().toString());
+              //  appUser1.setId(1L);
                 appUser1.setPassword(passwordEncoder.encode(password));
             return appUserRep.save(appUser1);
     }
@@ -64,21 +62,25 @@ public class ImplServices implements iservice {
         appUserRep.delete(appUser);
     }
     @Override
-    public void editUser(String username, String password, String rePassword) {
-        appUser appUser = appUserRep.findByUsername(username);
-        if (appUser == null) throw new RuntimeException("user not found");
-        if (!password.equals(rePassword)) throw new RuntimeException("les mots de passe ne correspondent pas");
+    public appUser editUser(String oldUsername, String newUsername, String password, String rePassword) {
+        appUser appUser = appUserRep.findByUsername(oldUsername);
+        if (appUser == null) {
+            throw new RuntimeException("user not found");
+        }
+        if (!password.equals(rePassword)) {
+            throw new RuntimeException("les mots de passe ne correspondent pas");
+        }
         appUser.setPassword(passwordEncoder.encode(password));
-        appUserRep.save(appUser);
+        appUser.setUsername(newUsername);
+        return appUserRep.save(appUser);
     }
+
     @Override
     public void deleteUserAndRoles(String username) {
         appUser appUser=appUserRep.findByUsername(username);
         if(appUser==null) throw new RuntimeException("User not found");
-
         // Remove user's roles
         appUser.getListRoles().clear();
-
         // Delete user
         appUserRep.delete(appUser);
     }
@@ -94,4 +96,24 @@ public class ImplServices implements iservice {
     public Object getAllRoles() {
         return null;
     }
+
+    @Override
+    public void updateRoleForUser(String oldUsername, String newUsername, String rolename) {
+        appUser appUser = appUserRep.findByUsername(oldUsername);
+        if (appUser == null) {
+            throw new RuntimeException("user not found");
+        }
+        appUser.setUsername(newUsername);
+        appRole appRole = appRoleRep.findByRolename(rolename);
+        if (appRole == null) {
+            throw new RuntimeException("role not found");
+        }
+        appUser.getListRoles().clear();
+        appUser.getListRoles().add(appRole);
+    }
+
+
+
+
+
 }

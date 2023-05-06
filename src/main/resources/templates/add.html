@@ -16,18 +16,18 @@
             </div>
             <div class="form-group">
                 <label class="col-form-label">Nom</label>
-                <input type="text" class="form-control" name="nom" th:value="${responsable.nom}">
-                <span th:errors="${responsable.nom}" class="text-danger"></span>
+                <input type="text" class="form-control" name="nom" th:value="${employe.nom}">
+                <span th:errors="${employe.nom}" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Prenom</label>
-                <input type="text" class="form-control" name="prenom" th:value="${responsable.prenom}">
-                <span th:errors="${responsable.prenom}" class="text-danger"></span>
+                <input type="text" class="form-control" name="prenom" th:value="${employe.prenom}">
+                <span th:errors="${employe.prenom}" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Email</label>
-                <input type="email" class="form-control" name="email" th:value="${responsable.email}">
-                <span th:errors="${responsable.email}" class="text-danger"></span>
+                <input type="email" class="form-control" name="email" th:value="${employe.email}">
+                <span th:errors="${employe.email}" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Password</label>
@@ -36,16 +36,16 @@
             </div>
             <div class="form-group">
                 <label class="col-form-label">Date debut travail</label>
-                <input type="date" class="form-control" name="dateDebutTravail" th:value="${responsable.dateDebutTravail}">
-                <span th:errors="${responsable.dateDebutTravail}" class="text-danger"></span>
+                <input type="date" class="form-control" name="dateDebutTravail" th:value="${employe.dateDebutTravail}">
+                <span th:errors="${employe.dateDebutTravail}" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Role</label>
-                <select class="form-control" aria-label="Default select example" name="role" th:value="${responsable.role}">
+                <select class="form-control" aria-label="Default select example" name="role" th:value="${employe.role}">
                     <option value="PROFESSEUR">Professeur</option>
                     <option value="CHEFDEP">ChefDep</option>
                 </select>
-                <span th:errors="${responsable.role}" class="text-danger"></span>
+                <span th:errors="${employe.role}" class="text-danger"></span>
             </div>
 
             <div class="form-group">

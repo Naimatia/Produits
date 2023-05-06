@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class appUser {
-    @Id
-    private String Id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(unique = false)
     private String username;
     private String password;
@@ -26,4 +26,7 @@ public class appUser {
         return new BCryptPasswordEncoder();
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

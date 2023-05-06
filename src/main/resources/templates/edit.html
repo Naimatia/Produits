@@ -13,24 +13,35 @@
 <body>
 <div layout:fragment="contentBody">
     <div class="container">
-        <form method="post" th:action="@{/admin/saveEdit(page=${page},key=${key})}">
+        <form method="post" th:action="@{/admin/edit(page=${page},key=${key})}">
             <div>
                 <h2>Modifier Le Responsable</h2>
             </div>
+            <input type="hidden" name="username" th:value="${appUser.username}"/>
+            <div class="form-group">
+                <label>id </label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="id" th:value="${employe.id}">
+                <span th:errors="${employe.id}" ></span>
+            </div>
+            <div class="form-group">
+                <label>id</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="idAppUser" th:value="${appUser.id}">
+                <span th:errors="${appUser.id}" ></span>
+            </div>
             <div class="form-group">
                 <label>Nom</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp" name="nom" th:value="${responsable.nom}">
-                <span th:errors="${responsable.nom}" ></span>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="nom" th:value="${employe.nom}">
+                <span th:errors="${employe.nom}" ></span>
             </div>
             <div class="form-group">
                 <label for="prenom">Prenom</label>
-                <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${responsable.prenom}">
-                <span th:errors="${responsable.prenom}"></span>
+                <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${employe.prenom}">
+                <span th:errors="${employe.prenom}"></span>
             </div>
             <div class="form-group">
                 <label for="Email" >Email</label>
-                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" th:value="${responsable.email}">
-                <span th:errors="${responsable.email}"></span>
+                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" th:value="${employe.email}">
+                <span th:errors="${employe.email}"></span>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -39,16 +50,20 @@
             </div>
             <div class="form-group">
                 <label for="dt">Date debut travail</label>
-                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${responsable.dateDebutTravail}">
-                <span th:errors="${responsable.dateDebutTravail}"></span>
+                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${employe.dateDebutTravail}">
+                <span th:errors="${employe.dateDebutTravail}"></span>
             </div>
             <div class="form-group">
-                <select class="form-control" aria-label="Default select example" name="role" th:value="${responsable.role}">
-                    <option value="PROFESSEUR">PROFESSEUR</option>
-                    <option value="CHEFDEP">CHEFDEP</option>
+                <label class="col-form-label">Role</label>
+                <select class="form-control" name="role" th:field="${employe.role}">
+                    <option value="PROFESSEUR" th:selected="${employe.role == 'PROFESSEUR'}">Professeur</option>
+                    <option value="CHEFDEP" th:selected="${employe.role == 'CHEFDEP'}">ChefDep</option>
                 </select>
-                <span th:errors="${responsable.role}"></span>
+                <span th:errors="${employe.role}" class="text-danger"></span>
             </div>
+
+
+
             <div>
                 <button type="submit" class="btn btn-primary">Edit</button>
             </div>

@@ -9,9 +9,14 @@ public interface iservice {
     void addRoleToUser(String username,String rolename);
     void removeRoleFromUser(String username, String rolename);
     void removeUser(String username);
-    void editUser(String username, String password, String rePassword);
+    appUser editUser(String oldUsername, String newUsername, String password, String rePassword);
+
     void deleteUserAndRoles(String username);
     appUser loadUserByUsername(String username);
 
     Object getAllRoles();
+
+
+    void updateRoleForUser(String oldUsername, String newUsername, String rolename);
+
 }

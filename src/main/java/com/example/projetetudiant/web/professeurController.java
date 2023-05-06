@@ -71,7 +71,7 @@ public class professeurController {
 
     @GetMapping("/SignResponsable")
     public String SignResponsable(Model model){
-        return "SignResponsable.html";
+        return "SignEmploye.html";
     }
     //@RequestMapping("/SignResponsable")
 
