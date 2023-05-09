@@ -44,12 +44,34 @@
                 <input type="date" class="form-control" name="dateDebutTravail" th:value="${employe.dateDebutTravail}">
                 <span th:errors="${employe.dateDebutTravail}" class="text-danger"></span>
             </div>
-            <div class="form-group">
+         <!--   <div class="form-group">
                 <label class="col-form-label">Matiere</label>
                 <select class="form-control" aria-label="Default select example" name="matiere" th:value="${employe.matiere}">
                     <option value="MATH">Math</option>
                     <option value="INFORMATIQUE">Informatique</option>
                 </select>
+            </div>-->
+            <div class="form-group">
+                <label class="control-label">departement :</label>
+                <select name="departement" class="form-control">
+                    <option th:value="${null}">--Please select a departement--</option>
+                    <option th:each="departement : ${departements}"
+                            th:value="${departement.iddep}"
+                            th:text="${departement.nom}">
+                    </option>
+                </select>
+                <span th:errors="${employe.departement}" class="text-danger"> </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Matiere :</label>
+                <select name="matiere" class="form-control">
+                    <option th:value="${null}">--Please select a matiere--</option>
+                    <option th:each="matiere : ${matieres}"
+                            th:value="${matiere.idMat}"
+                            th:text="${matiere.nom}">
+                    </option>
+                </select>
+                <span th:errors="${employe.matiere}" class="text-danger"> </span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Role</label>

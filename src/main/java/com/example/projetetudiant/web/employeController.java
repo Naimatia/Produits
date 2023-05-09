@@ -1,7 +1,11 @@
 package com.example.projetetudiant.web;
 
+import com.example.projetetudiant.entities.departement;
 import com.example.projetetudiant.entities.employe;
+import com.example.projetetudiant.entities.matiere;
+import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.repositories.employeRepository;
+import com.example.projetetudiant.repositories.matiereRepository;
 import com.example.projetetudiant.security.entities.appUser;
 import com.example.projetetudiant.security.services.iservice;
 import lombok.AllArgsConstructor;
@@ -20,7 +24,8 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class employeController {
     private final employeRepository employeRepository;
-
+private  departementRepository departementRepository;
+private matiereRepository matiereRepository;
     private iservice serviceImpl;
 
     @GetMapping("/admin/home")
@@ -54,16 +59,27 @@ public class employeController {
    public String add(Model model){
        model.addAttribute("employe",new employe());
        model.addAttribute("appUser",new appUser());
+       model.addAttribute("departements", departementRepository.findAll());
+       model.addAttribute("matieres", matiereRepository.findAll());
        model.addAttribute("roles", serviceImpl.getAllRoles());
        return "add";
    }
     @PostMapping("/admin/save")
     public String save(Model model, @Valid employe employe, BindingResult bindingResult,
-                       @Valid appUser appUser, BindingResult userBindingResult){
+                       @Valid appUser appUser, BindingResult userBindingResult,
+                       @RequestParam("departement") Long departementId,
+                       @RequestParam("matiere") Long matiereId){
         String roleName;
         if (bindingResult.hasErrors() || userBindingResult.hasErrors()){
             return "add";
         }
+        departement departement = departementRepository.findById(departementId).orElse(null);
+        matiere matiere = matiereRepository.findById(matiereId).orElse(null);
+
+        // Set the departement and matiere to the employe entity
+        employe.setDepartement(departement);
+        employe.setMatiere(matiere);
+        // add user
         appUser.setUsername(employe.getNom()); // set the username to the value of nom
       //  appUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
         serviceImpl.addUser(appUser.getUsername(), appUser.getPassword(), appUser.getPassword());
@@ -71,8 +87,6 @@ public class employeController {
           serviceImpl.addRoleToUser(appUser.getUsername(),roleName );
 
         employeRepository.save(employe);
-        System.out.println("Role name: " + roleName);
-        System.out.println("ajout employe: " + employe);
         return "redirect:/admin/home";
     }
 
@@ -83,10 +97,15 @@ public class employeController {
         // Load user information
         appUser appUser = serviceImpl.loadUserByUsername(employe.getNom());
 
+        // Set the selected department and matiere in the dropdowns
+        model.addAttribute("selectedDepartement", employe.getDepartement().getIddep());
+        model.addAttribute("selectedMatiere", employe.getMatiere().getIdMat());
         if (appUser == null) throw new RuntimeException("User not found");
         // Add user information to model
         model.addAttribute("employe", employe);
         model.addAttribute("appUser", appUser);
+        model.addAttribute("departements", departementRepository.findAll());
+        model.addAttribute("matieres", matiereRepository.findAll());
         model.addAttribute("page",page);
         model.addAttribute("key",key);
         return "edit";

@@ -25,6 +25,8 @@
             <th>Email</th>
             <th>Date début travail</th>
             <th>Role</th>
+            <th>Département</th>
+            <th>Matiere</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -36,6 +38,9 @@
             <td th:text="${r.email}"></td>
             <td th:text="${r.dateDebutTravail}"></td>
             <td th:text="${r.role}"></td>
+            <td th:text="${r.departement.nom}"></td>
+            <td th:text="${r.matiere.nom}"></td>
+
             <td>
                 <a class="btn btn-danger btn-sm" th:href="@{/admin/delete(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Delete</a>
                 <a class="btn btn-info btn-sm" th:href="@{/admin/edit(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Edit</a>

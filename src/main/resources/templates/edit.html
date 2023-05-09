@@ -20,13 +20,8 @@
             <input type="hidden" name="username" th:value="${appUser.username}"/>
             <div class="form-group">
                 <label>id </label>
-                <input type="text" class="form-control" aria-describedby="emailHelp" name="id" th:value="${employe.id}">
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="id" th:value="${employe.id}" readonly>
                 <span th:errors="${employe.id}" ></span>
-            </div>
-            <div class="form-group">
-                <label>id</label>
-                <input type="text" class="form-control" aria-describedby="emailHelp" name="idAppUser" th:value="${appUser.id}">
-                <span th:errors="${appUser.id}" ></span>
             </div>
             <div class="form-group">
                 <label>Nom</label>
@@ -49,23 +44,33 @@
                 <span th:errors="${appUser.password}"></span>
             </div>
             <div class="form-group">
-                <label class="col-form-label">Confirm Password</label>
-                <input type="password" class="form-control" name="password" th:value="${appUser.password}">
-                <span th:errors="${appUser.password}" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label for="dt">Date debut travail</label>
                 <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${employe.dateDebutTravail}">
                 <span th:errors="${employe.dateDebutTravail}"></span>
             </div>
             <div class="form-group">
-                <label class="col-form-label">Matiere</label>
-                <select class="form-control" name="role" th:field="${employe.matiere}">
-                    <option value="MATH" th:selected="${employe.matiere == 'MATH'}">Math</option>
-                    <option value="INFORMATIQUE" th:selected="${employe.matiere == 'INFORMATIQUE'}">Informatique</option>
+                <label class="control-label">Departement:</label>
+                <select name="departement" class="form-control">
+                    <option th:value="${null}">--Please select a department--</option>
+                    <option th:each="departement : ${departements}"
+                            th:value="${departement.iddep}"
+                            th:text="${departement.nom}"
+                            th:selected="${departement.iddep == selectedDepartement}">
+                    </option>
                 </select>
-                <span th:errors="${employe.matiere}" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label class="control-label">Matiere:</label>
+                <select name="matiere" class="form-control">
+                    <option th:value="${null}">--Please select a matiere--</option>
+                    <option th:each="matiere : ${matieres}"
+                            th:value="${matiere.idMat}"
+                            th:text="${matiere.nom}"
+                            th:selected="${matiere.idMat == selectedMatiere}">
+                    </option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label class="col-form-label">Role</label>
                 <select class="form-control" name="role" th:field="${employe.role}">
