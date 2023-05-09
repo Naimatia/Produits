@@ -37,16 +37,16 @@ public class ProjetEtudiantApplication {
         };
     }
 
-  @Bean
+  //@Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
-        //    serviceImpl.addUser("naim","1234","1234");
+            serviceImpl.addUser("aziz","1234","1234");
           serviceImpl.addUser("hamza","","");
-          serviceImpl.addRole("ADMIN","");
-          serviceImpl.addRole("CHEFDEP","");
-          serviceImpl.addRole("PROFESSEUR","");
+         serviceImpl.addRole("ADMIN","");
+        serviceImpl.addRole("CHEFDEP","");
+        serviceImpl.addRole("PROFESSEUR","");
 
-        //    serviceImpl.addRoleToUser("naim","PROFESSEUR");
+          serviceImpl.addRoleToUser("aziz","PROFESSEUR");
          serviceImpl.addRoleToUser("hamza","ADMIN");
 
         } ;

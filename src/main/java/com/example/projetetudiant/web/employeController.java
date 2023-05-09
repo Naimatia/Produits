@@ -13,13 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
 public class employeController {
     private final employeRepository employeRepository;
-    @Autowired
+
     private iservice serviceImpl;
 
     @GetMapping("/admin/home")
@@ -34,14 +35,6 @@ public class employeController {
         model.addAttribute("pageCurrent",page);
         return "home";
     }
-    /*
-    @GetMapping(value = "/admin/delete")
-    public String delete(Long id,int page, String key){
-
-        employeRepository.deleteById(id);
-        return "redirect:/admin/home?page="+page+ "&key=" +key;
-    }
-     */
     @GetMapping(value = "/admin/delete")
     public String delete(Long id, int page, String key) {
 
@@ -71,16 +64,11 @@ public class employeController {
         if (bindingResult.hasErrors() || userBindingResult.hasErrors()){
             return "add";
         }
-
         appUser.setUsername(employe.getNom()); // set the username to the value of nom
-        System.out.println("ajout employe: " + appUser.getUsername());
-
-        appUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
+      //  appUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
         serviceImpl.addUser(appUser.getUsername(), appUser.getPassword(), appUser.getPassword());
-     // serviceImpl.addRoleToUser(appUser.getUsername(), "PROFESSEUR");
             roleName = String.valueOf(employe.getRole());
           serviceImpl.addRoleToUser(appUser.getUsername(),roleName );
-
 
         employeRepository.save(employe);
         System.out.println("Role name: " + roleName);
@@ -127,8 +115,30 @@ public class employeController {
 
         return "redirect:/admin/home?page=" + page + "&key=" + key;
     }
+    @GetMapping("/")
+    public String racine(){
+        return "racine.html";
+    }
+    @GetMapping("/SignUser")
+    public String SignUser(Model model){
+        return "SignUser.html";
+    }
+    @GetMapping("/SignEmploye")
+    public String SignEmploye(Model model){
+        return "SignEmploye.html";
+    }
 
-
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // perform logout actions, e.g., invalidate session
+        request.getSession().invalidate();
+        // redirect to login page
+        return "redirect:/";
+    }
+    @GetMapping("/403")
+    public String accessFaild(){
+        return "403";
+    }
 
 
 

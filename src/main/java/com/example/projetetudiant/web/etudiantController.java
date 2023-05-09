@@ -68,14 +68,7 @@ public class etudiantController {
         return "redirect:/user/home?page="+page+ "&key=" +key;
     }
 
-    @GetMapping("/")
-    public String racine(){
-        return "racine.html";
-    }
-    @GetMapping("/SignUser")
-    public String SignUser(Model model){
-        return "SignUser.html";
-    }
+
 /*
     @GetMapping("/SignEtudiant")
     public String SignEtudiant(Model model){
@@ -115,12 +108,6 @@ public String SignEtudiant(Model model){
     public String InterfaceEtudiant(Model model){
         return "InterfaceEtudiant.html";
     }
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        // perform logout actions, e.g., invalidate session
-        request.getSession().invalidate();
-        // redirect to login page
-        return "redirect:/SignUser";
-    }
+
 
 }

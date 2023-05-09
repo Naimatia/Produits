@@ -1,5 +1,6 @@
 package com.example.projetetudiant.entities;
 
+import com.example.projetetudiant.EnumType.matiere;
 import com.example.projetetudiant.EnumType.role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,13 @@ public class employe {
     private Date dateDebutTravail;
     @Enumerated(EnumType.STRING)
     private role role;
+
+    public void setMatiere(com.example.projetetudiant.EnumType.matiere matiere) {
+        this.matiere = matiere;
+    }
+
+    @Enumerated(EnumType.STRING)
+    private matiere matiere;
 
     public void setRole(role role) {
         this.role = role;

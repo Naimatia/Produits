@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -20,8 +21,8 @@ import javax.validation.Valid;
 public class professeurController {
     private ProfesseurRepository professeurRepository;
 
-    @GetMapping("/professeur/InterfaceProfesseur")
-    public String homeProfesseur(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
+   // @GetMapping("/professeur/InterfaceProfesseur")
+    public String InterfaceProfesseur(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
                        @RequestParam(name = "size",defaultValue = "6") int size,
                        @RequestParam(name = "key",defaultValue = "") String key
     ){
@@ -32,6 +33,16 @@ public class professeurController {
         model.addAttribute("pageCurrent",page);
         return "InterfaceProfesseur";
     }
+
+
+    @GetMapping("/professeur/InterfaceProfesseur")
+    public String InterfaceProfesseur(Model model){
+        return "InterfaceProfesseur";
+    }
+
+
+
+
     //@GetMapping(value = "/professeur/delete")
     public String delete(Long id,int page, String key){
 
@@ -69,10 +80,14 @@ public class professeurController {
         return "redirect:/user/home?page="+page+ "&key=" +key;
     }
 
-    @GetMapping("/SignResponsable")
-    public String SignResponsable(Model model){
-        return "SignEmploye.html";
-    }
-    //@RequestMapping("/SignResponsable")
 
+  /*  @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // perform logout actions, e.g., invalidate session
+        request.getSession().invalidate();
+        // redirect to login page
+        return "redirect:/SignEmploye";
+    }
+
+   */
 }

@@ -49,9 +49,22 @@
                 <span th:errors="${appUser.password}"></span>
             </div>
             <div class="form-group">
+                <label class="col-form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="password" th:value="${appUser.password}">
+                <span th:errors="${appUser.password}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label for="dt">Date debut travail</label>
                 <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${employe.dateDebutTravail}">
                 <span th:errors="${employe.dateDebutTravail}"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Matiere</label>
+                <select class="form-control" name="role" th:field="${employe.matiere}">
+                    <option value="MATH" th:selected="${employe.matiere == 'MATH'}">Math</option>
+                    <option value="INFORMATIQUE" th:selected="${employe.matiere == 'INFORMATIQUE'}">Informatique</option>
+                </select>
+                <span th:errors="${employe.matiere}" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Role</label>
