@@ -1,8 +1,12 @@
 package com.example.projetetudiant;
 
 import com.example.projetetudiant.EnumType.role;
+import com.example.projetetudiant.entities.departement;
 import com.example.projetetudiant.entities.etudiant;
+import com.example.projetetudiant.entities.matiere;
+import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.repositories.etudiantRepository;
+import com.example.projetetudiant.repositories.matiereRepository;
 import com.example.projetetudiant.security.services.iservice;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +25,7 @@ public class ProjetEtudiantApplication {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
 
-     @Bean
+  //   @Bean
     CommandLineRunner start3(etudiantRepository etudiantRepository){
         return  args -> {
 
@@ -35,7 +39,7 @@ public class ProjetEtudiantApplication {
         };
     }
 
-  @Bean
+//  @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
             serviceImpl.addUser("aziz","1234","1234");
@@ -43,13 +47,32 @@ public class ProjetEtudiantApplication {
          serviceImpl.addRole("ADMIN","");
         serviceImpl.addRole("CHEFDEP","");
         serviceImpl.addRole("PROFESSEUR","");
-
-          serviceImpl.addRoleToUser("aziz","PROFESSEUR");
+            serviceImpl.addRole("ETUDIANT","");
+            serviceImpl.addRoleToUser("aziz","PROFESSEUR");
          serviceImpl.addRoleToUser("hamza","ADMIN");
 
         } ;
     }
-
+     //  @Bean
+    CommandLineRunner start5(departementRepository departementRepository) {
+        return args -> {
+            Stream.of("informatique", "éléctrique", "mécanique").forEach(name -> {
+                departement d = new departement();
+                d.setNom(name);
+                departementRepository.save(d);
+            });
+        };
+    }
+   //  @Bean
+    CommandLineRunner start4(matiereRepository matiereRepository) {
+        return args -> {
+            Stream.of("Mathématique", "informatique", "Français").forEach(name -> {
+                matiere m = new matiere();
+                m.setNom(name);
+                matiereRepository.save(m);
+            });
+        };
+    }
     @Bean
    PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();

@@ -16,7 +16,7 @@
 
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form method="post" th:action="@{/SignEtudiant}">
+        <form method="post" th:action="@{/save}">
             <h2>Create Account</h2>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -26,7 +26,7 @@
             <input type="text" placeholder="Nom" name="nom"  th:value="${etudiant.nom}">
             <input type="text" placeholder="Prénom" name="prenom"  th:value="${etudiant.prenom}">
             <input type="email" placeholder="Email" name="email"  th:value="${etudiant.email}">
-            <input type="password" placeholder="Password" name="password"  th:value="${etudiant.password}">
+            <input type="password" placeholder="Password" name="password"  th:value="${appUser.password}">
             <input type="date" placeholder="date de Naissance" name="dateNiassance"  th:value="${etudiant.dateNiassance}">
             <select class="form-select" aria-label="Default select example" name="genre"   th:value="${etudiant.genre}">
                 <option value="MASCULIN">MASCULIN</option>
@@ -45,10 +45,10 @@
                 <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
             </div>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" />
+            <input type="text" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
-            <button >Sign In</button>
+            <button type="submit">Sign In</button>
         </form>
     </div>
     <div class="overlay-container">

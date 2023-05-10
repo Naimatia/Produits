@@ -61,7 +61,27 @@ public class SecurityConfig {
 
         }
     }
+    @Configuration
+    @Order(3)
+    public static class EtudiantFormLoginConfigurer extends WebSecurityConfigurerAdapter {
 
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.requestMatchers()
+                    .antMatchers("/SignEtudiant")
+                    .and()
+                    .formLogin()
+                    .loginPage("/SignEtudiant")
+                    .defaultSuccessUrl("/InterfaceEtudiant")
+                    .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .and();
+
+
+        }
+    }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);

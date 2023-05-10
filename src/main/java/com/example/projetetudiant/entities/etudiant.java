@@ -42,4 +42,18 @@ public class etudiant {
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    @Override
+    public String toString() {
+        return "etudiant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", dateNiassance=" + dateNiassance +
+                ", genre=" + genre +
+                ", departement=" + departement +
+                '}';
+    }
 }

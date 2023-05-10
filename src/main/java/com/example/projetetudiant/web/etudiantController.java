@@ -1,7 +1,12 @@
 package com.example.projetetudiant.web;
 
+import com.example.projetetudiant.entities.departement;
+import com.example.projetetudiant.entities.employe;
 import com.example.projetetudiant.entities.etudiant;
+import com.example.projetetudiant.entities.matiere;
 import com.example.projetetudiant.repositories.etudiantRepository;
+import com.example.projetetudiant.security.entities.appUser;
+import com.example.projetetudiant.security.services.iservice;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +23,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class etudiantController {
     private etudiantRepository etudiantRepository;
-
+private iservice serviceImpl;
    // @GetMapping("/user/home")
     public String home(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
                                     @RequestParam(name = "size",defaultValue = "6") int size,
@@ -93,17 +98,29 @@ public class etudiantController {
 @GetMapping("/SignEtudiant")
 public String SignEtudiant(Model model){
     model.addAttribute("etudiant",new etudiant());
-    return "SignEtudiant.html";
+    model.addAttribute("appUser",new appUser());
+    model.addAttribute("roles",serviceImpl.getAllRoles());
+    return "SignEtudiant";
 }
 
-    @PostMapping("/SignEtudiant")
-    public String processSignupForm(Model model, @Valid etudiant etudiant, BindingResult bindingResult){
-        if (bindingResult.hasErrors())
+    @PostMapping("/save")
+    public String save(Model model, @Valid etudiant etudiant,BindingResult bindingResult,
+                       @Valid appUser appUser, BindingResult userBindingResult){
+        if (bindingResult.hasErrors() || userBindingResult.hasErrors()) {
             return "SignEtudiant";
+        }
+     appUser.setUsername(etudiant.getNom());
+     serviceImpl.addUser(appUser.getUsername(),appUser.getPassword(),appUser.getPassword());
+        serviceImpl.addRoleToUser(appUser.getUsername(),"ETUDIANT" );
         etudiantRepository.save(etudiant);
-        return "redirect:/SignEtudiant.html";
+        System.out.println("etudiants" + etudiant);
+        return "redirect:/";
     }
 
+/*@GetMapping("/SignEtudiant")
+public String SignEtudiant(){return "SignEtudiant.html";}
+
+ */
     @GetMapping("/InterfaceEtudiant")
     public String InterfaceEtudiant(Model model){
         return "InterfaceEtudiant.html";
