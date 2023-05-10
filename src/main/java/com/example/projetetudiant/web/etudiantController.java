@@ -115,7 +115,6 @@ public class etudiantController {
     @PostMapping("/save")
     public String save(Model model, @Valid etudiant etudiant,BindingResult bindingResult,@Valid appUser appUser){
         if (bindingResult.hasErrors()) return "inscription";
-        appUser.setUsername(etudiant.getNom());
         serviceImpl.addUser(appUser.getUsername(),appUser.getPassword(),appUser.getPassword());
         serviceImpl.addRoleToUser(appUser.getUsername(),"ETUDIANT" );
         etudiantRepository.save(etudiant);
@@ -124,7 +123,7 @@ public class etudiantController {
     }
 
     @GetMapping("/SignEtudiant")
-    public String SignEtudiant(){
+    public String SignEtudiant(Model model){
         return "SignEtudiant.html";
     }
     @GetMapping("/etudiant/InterfaceEtudiant")
