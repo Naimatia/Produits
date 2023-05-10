@@ -31,6 +31,7 @@ public class etudiant {
     @Email
     private String email;
     private String password;
+    private String username;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
