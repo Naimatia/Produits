@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="templateProfesseur">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!-- Ajouter les liens vers les fichiers CSS et JavaScript de Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div layout:fragment="contentBody">
+  <div class="container">
+    <form method="post" th:action="@{/professeur/editEtudiant(page=${page},key=${key})}">
+      <div>
+        <h2>Modifier L'etudiant</h2>
+      </div>
+      <div class="form-group">
+        <label>id </label>
+        <input type="text" class="form-control" aria-describedby="emailHelp" name="id" th:value="${etudiant.id}" readonly>
+        <span th:errors="${etudiant.id}" ></span>
+      </div>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" class="form-control" aria-describedby="emailHelp" name="nom" th:value="${etudiant.nom}">
+        <span th:errors="${etudiant.nom}" ></span>
+      </div>
+      <div class="form-group">
+        <label for="prenom">Prenom</label>
+        <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${etudiant.prenom}">
+        <span th:errors="${etudiant.prenom}"></span>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Departement:</label>
+        <select name="departement" class="form-control">
+          <option th:value="${null}">--Please select a department--</option>
+          <option th:each="departement : ${departements}"
+                  th:value="${departement.iddep}"
+                  th:text="${departement.nom}"
+                  th:selected="${departement.iddep == selectedDepartement}">
+          </option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Edit</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>

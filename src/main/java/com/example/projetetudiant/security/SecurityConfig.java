@@ -51,7 +51,7 @@ public class SecurityConfig {
                     .and()
                     .formLogin()
                     .loginPage("/SignEmploye")
-                    .defaultSuccessUrl("/professeur/InterfaceProfesseur")
+                    .defaultSuccessUrl("/professeur/gestionEtudiant")
                     .and()
                     .logout()
                     .logoutUrl("/logout")

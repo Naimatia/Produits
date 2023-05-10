@@ -2,6 +2,7 @@ package com.example.projetetudiant.web;
 
 import com.example.projetetudiant.entities.etudiant;
 import com.example.projetetudiant.repositories.ProfesseurRepository;
+import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.security.services.iservice;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,18 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class professeurController {
     private ProfesseurRepository professeurRepository;
-
-   // @GetMapping("/professeur/InterfaceProfesseur")
-    public String InterfaceProfesseur(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
-                       @RequestParam(name = "size",defaultValue = "6") int size,
-                       @RequestParam(name = "key",defaultValue = "") String key
+    private  departementRepository departementRepository;
+    @GetMapping("/professeur/gestionEtudiant")
+    public String gestionEtudiant(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
+                                      @RequestParam(name = "size",defaultValue = "6") int size,
+                                      @RequestParam(name = "key",defaultValue = "") String key
     ){
         Page<etudiant> etudiantPages=professeurRepository.findAllByNomContains(key,PageRequest.of(page,size));
         model.addAttribute("pages",etudiantPages.getContent());
         model.addAttribute("nbrPages",new int[etudiantPages.getTotalPages()]);
         model.addAttribute("key",key);
         model.addAttribute("pageCurrent",page);
-        return "InterfaceProfesseur";
+        return "gestionEtudiant";
     }
 
 
@@ -64,18 +65,22 @@ public class professeurController {
         return "redirect:/user/home";
     }
 
-    //@GetMapping("/admin/edit")
-    public  String edit(Model model, Long id, int page,String key){
-        etudiant etudiant=professeurRepository.findById(id).orElse(null);
+    @GetMapping("/professeur/editEtudiant")
+    public  String editEtudiant(Model model, Long id, int page,String key){
+       etudiant etudiant=professeurRepository.findById(id).orElse(null);
+      //  model.addAttribute("selectedDepartement",etudiant.getDepartement().getIddep());
+        model.addAttribute("departements", departementRepository.findAll());
         model.addAttribute("etudiant",etudiant);
         model.addAttribute("page",page);
         model.addAttribute("key",key);
-        return "edit";
+
+
+        return "editEtudiant";
     }
 
-    //   @PostMapping("/admin/saveEdit")
-    public String saveEdit(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
-        if(bindingResult.hasErrors())return "edit";
+    // @PostMapping("/professeur/saveEditEtudiant")
+    public String saveEditEtudiant(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
+        if(bindingResult.hasErrors())return "saveEditEtudiant";
         professeurRepository.save(etudiant);
         return "redirect:/user/home?page="+page+ "&key=" +key;
     }

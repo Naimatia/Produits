@@ -23,7 +23,7 @@ public class config extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/SignEtudiant", "/SignEmploye", "/SignUser", "/webjars/**", "/css/**", "/js/**", "/image/**").permitAll()
+                .antMatchers("/","/gestionEtudiant", "/SignEtudiant", "/SignEmploye", "/SignUser", "/webjars/**", "/css/**", "/js/**", "/image/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/professeur/**").hasAnyAuthority("PROFESSEUR","CHEFDEP")
                 .antMatchers("/error").permitAll()

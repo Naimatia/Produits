@@ -1,12 +1,8 @@
 package com.example.projetetudiant;
 
 import com.example.projetetudiant.EnumType.role;
-import com.example.projetetudiant.entities.departement;
-import com.example.projetetudiant.entities.employe;
-import com.example.projetetudiant.entities.matiere;
-import com.example.projetetudiant.repositories.departementRepository;
-import com.example.projetetudiant.repositories.employeRepository;
-import com.example.projetetudiant.repositories.matiereRepository;
+import com.example.projetetudiant.entities.etudiant;
+import com.example.projetetudiant.repositories.etudiantRepository;
 import com.example.projetetudiant.security.services.iservice;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,45 +21,21 @@ public class ProjetEtudiantApplication {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
 
-  //   @Bean
-    CommandLineRunner start3(employeRepository employeRepository){
+     @Bean
+    CommandLineRunner start3(etudiantRepository etudiantRepository){
         return  args -> {
 
             Stream.of("mohammed","ahmed","kamal","farah","najat","fouad").forEach(name->{
-                employe r=new employe();
+                etudiant r=new etudiant();
                 r.setNom(name);
                 r.setPrenom("bentest");
                 r.setEmail(name+"@gmail.com");
-                r.setRole(Math.random()<0.5?role.PROFESSEUR:role.CHEFDEP);
-                r.setDateDebutTravail(new Date());
-                employeRepository.save(r);
-            });
-        };
-    }
- //   @Bean
-    CommandLineRunner start3(departementRepository departementRepository) {
-        return args -> {
-            Stream.of("informatique", "éléctrique", "mécanique").forEach(name -> {
-                departement d = new departement();
-                d.setNom(name);
-                departementRepository.save(d);
-            });
-        };
-    }
-   // @Bean
-    CommandLineRunner start4(matiereRepository matiereRepository) {
-        return args -> {
-            Stream.of("Mathématique", "informatique", "Français").forEach(name -> {
-                matiere m = new matiere();
-                m.setNom(name);
-                matiereRepository.save(m);
+                etudiantRepository.save(r);
             });
         };
     }
 
-
-
-     //   @Bean
+  @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
             serviceImpl.addUser("aziz","1234","1234");

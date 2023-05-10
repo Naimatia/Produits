@@ -37,6 +37,8 @@ public class etudiant {
     private Date dateNiassance;
     @Enumerated(EnumType.STRING)
     private genre genre;
+    @ManyToOne
+    private departement departement;
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
