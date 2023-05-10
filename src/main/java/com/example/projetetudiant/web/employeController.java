@@ -1,8 +1,10 @@
 package com.example.projetetudiant.web;
 
+import com.example.projetetudiant.entities.classe;
 import com.example.projetetudiant.entities.departement;
 import com.example.projetetudiant.entities.employe;
 import com.example.projetetudiant.entities.matiere;
+import com.example.projetetudiant.repositories.classeRepository;
 import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.repositories.employeRepository;
 import com.example.projetetudiant.repositories.matiereRepository;
@@ -26,6 +28,7 @@ public class employeController {
     private final employeRepository employeRepository;
 private  departementRepository departementRepository;
 private matiereRepository matiereRepository;
+private classeRepository classeRepository;
     private iservice serviceImpl;
 
     @GetMapping("/admin/home")
@@ -89,8 +92,52 @@ private matiereRepository matiereRepository;
         employeRepository.save(employe);
         return "redirect:/admin/home";
     }
+// add a new subject to a class and a new class to a department
+@GetMapping("/admin/gestionClasse")
+public String gestionClasse(Model model){
+    model.addAttribute("departements", departementRepository.findAll());
+    model.addAttribute("matieres", matiereRepository.findAll());
+    model.addAttribute("classe", classeRepository.findAll()) ;
+    return "gestionClasse";
+}
+    @PostMapping("/admin/gestionClasse")
+    public String addData(@RequestParam String matiereNom, @RequestParam String classeNom, @RequestParam Long departementId, Model model) {
 
-    @GetMapping("/admin/edit")
+        // Retrieve the department and class based on their IDs
+        departement dept = departementRepository.findById(departementId).orElseThrow(() -> new IllegalArgumentException("Invalid department ID"));
+        classe cls = classeRepository.findById(Long.valueOf(classeNom)).orElseThrow(() -> new IllegalArgumentException("Invalid class ID"));
+
+        // Create a new subject
+        matiere newMatiere = new matiere();
+        newMatiere.setNom(matiereNom);
+
+        // Add the subject to the class
+        newMatiere.setClasse(cls);
+        cls.getMatieres().add(newMatiere);
+
+        // Add the class to the department
+        cls.setDepartement(dept);
+        dept.getClasses().add(cls);
+
+        // Save the changes to the database
+        matiereRepository.save(newMatiere);
+        classeRepository.save(cls);
+        departementRepository.save(dept);
+
+        return "redirect:/admin/gestionClasse";
+
+        }
+
+
+
+
+
+
+
+
+
+
+            @GetMapping("/admin/edit")
     public String edit(Model model,Long id, int page,String key) {
         employe employe = employeRepository.findById(id).orElse(null);
         if (employe == null) throw new RuntimeException("Responsable not found");
@@ -105,7 +152,9 @@ private matiereRepository matiereRepository;
         model.addAttribute("employe", employe);
         model.addAttribute("appUser", appUser);
         model.addAttribute("departements", departementRepository.findAll());
-        model.addAttribute("matieres", matiereRepository.findAll());
+       // model.addAttribute("matieres", matiereRepository.findAll());
+        model.addAttribute("classe", matiereRepository.findAll());
+
         model.addAttribute("page",page);
         model.addAttribute("key",key);
         return "edit";

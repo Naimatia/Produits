@@ -2,6 +2,7 @@ package com.example.projetetudiant.web;
 
 import com.example.projetetudiant.entities.etudiant;
 import com.example.projetetudiant.repositories.ProfesseurRepository;
+import com.example.projetetudiant.repositories.classeRepository;
 import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.security.services.iservice;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 public class professeurController {
     private ProfesseurRepository professeurRepository;
     private  departementRepository departementRepository;
+    private classeRepository classeRepository;
     @GetMapping("/professeur/gestionEtudiant")
     public String gestionEtudiant(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
                                       @RequestParam(name = "size",defaultValue = "6") int size,
@@ -70,19 +72,19 @@ public class professeurController {
        etudiant etudiant=professeurRepository.findById(id).orElse(null);
       //  model.addAttribute("selectedDepartement",etudiant.getDepartement().getIddep());
         model.addAttribute("departements", departementRepository.findAll());
+        model.addAttribute("classes", classeRepository.findAll());
         model.addAttribute("etudiant",etudiant);
         model.addAttribute("page",page);
         model.addAttribute("key",key);
 
-
         return "editEtudiant";
     }
 
-    // @PostMapping("/professeur/saveEditEtudiant")
+    @PostMapping("/professeur/editEtudiant")
     public String saveEditEtudiant(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
         if(bindingResult.hasErrors())return "saveEditEtudiant";
         professeurRepository.save(etudiant);
-        return "redirect:/user/home?page="+page+ "&key=" +key;
+        return "redirect:/professeur/gestionEtudiant?page="+page+ "&key=" +key;
     }
 
 

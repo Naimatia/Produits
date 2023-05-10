@@ -39,6 +39,9 @@ public class etudiant {
     private genre genre;
     @ManyToOne
     private departement departement;
+
+    @ManyToOne
+    private  classe classe;
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }

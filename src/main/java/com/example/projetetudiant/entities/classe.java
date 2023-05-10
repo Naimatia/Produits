@@ -13,20 +13,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class departement {
+public class classe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long iddep;
+    private Long idClas;
     @NotEmpty
     @Size(min = 4,max = 15)
     private String nom;
 
-
-    @OneToMany(mappedBy = "departement")
-    private List<employe> employes;
-    @OneToMany(mappedBy = "departement")
-    private List<etudiant> etudiant;
-    @OneToMany(mappedBy = "departement")
-    private List<classe> classes;
-
+    @ManyToOne
+    private departement departement;
+    @OneToMany(mappedBy = "classe")
+    private List<matiere> matieres;
 }

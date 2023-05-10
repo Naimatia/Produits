@@ -47,4 +47,6 @@ public class employe {
     private departement departement;
     @ManyToOne
     private matiere matiere;
+    @ManyToOne
+    private  classe classe;
 }

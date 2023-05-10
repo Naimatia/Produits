@@ -24,6 +24,9 @@ public class matiere {
     @OneToMany(mappedBy = "matiere")
     private List<employe> employes;
 
+
+    @ManyToOne
+    private  classe classe;
     @Override
     public String toString() {
         return "matiere{" +

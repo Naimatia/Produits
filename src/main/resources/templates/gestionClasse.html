@@ -13,24 +13,9 @@
 <body>
 <div layout:fragment="contentBody">
   <div class="container">
-    <form method="post" th:action="@{/professeur/editEtudiant(page=${page},key=${key})}">
+    <form method="post" th:action="@{/admin/gestionClasse(page=${page},key=${key})}">
       <div>
-        <h2>Modifier L'etudiant</h2>
-      </div>
-      <div class="form-group">
-        <label>id </label>
-        <input type="text" class="form-control" aria-describedby="emailHelp" name="id" th:value="${etudiant.id}" readonly>
-        <span th:errors="${etudiant.id}" ></span>
-      </div>
-      <div class="form-group">
-        <label>Nom</label>
-        <input type="text" class="form-control" aria-describedby="emailHelp" name="nom" th:value="${etudiant.nom}">
-        <span th:errors="${etudiant.nom}" ></span>
-      </div>
-      <div class="form-group">
-        <label for="prenom">Prenom</label>
-        <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${etudiant.prenom}">
-        <span th:errors="${etudiant.prenom}"></span>
+        <h2>Gestion des departements classes matieres </h2>
       </div>
       <div class="form-group">
         <label class="control-label">Departement:</label>
@@ -38,8 +23,7 @@
           <option th:value="${null}">--Please select a department--</option>
           <option th:each="departement : ${departements}"
                   th:value="${departement.iddep}"
-                  th:text="${departement.nom}"
-                  th:selected="${departement.iddep == selectedDepartement}">
+                  th:text="${departement.nom}">
           </option>
         </select>
       </div>
@@ -51,6 +35,16 @@
                   th:value="${classe.idClas}"
                   th:text="${classe.nom}"
                   th:selected="${classe.idClas == selecteClasse}">
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Matiere:</label>
+        <select name="departement" class="form-control">
+          <option th:value="${null}">--Please select a department--</option>
+          <option th:each="departement : ${departements}"
+                  th:value="${departement.iddep}"
+                  th:text="${departement.nom}">
           </option>
         </select>
       </div>

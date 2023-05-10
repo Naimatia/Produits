@@ -1,9 +1,11 @@
 package com.example.projetetudiant;
 
 import com.example.projetetudiant.EnumType.role;
+import com.example.projetetudiant.entities.classe;
 import com.example.projetetudiant.entities.departement;
 import com.example.projetetudiant.entities.etudiant;
 import com.example.projetetudiant.entities.matiere;
+import com.example.projetetudiant.repositories.classeRepository;
 import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.repositories.etudiantRepository;
 import com.example.projetetudiant.repositories.matiereRepository;
@@ -24,8 +26,8 @@ public class ProjetEtudiantApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
-
-     //@Bean
+/*
+     @Bean
     CommandLineRunner start3(etudiantRepository etudiantRepository){
         return  args -> {
 
@@ -39,7 +41,7 @@ public class ProjetEtudiantApplication {
         };
     }
 
- // @Bean
+ @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
             serviceImpl.addUser("aziz","1234","1234");
@@ -53,7 +55,7 @@ public class ProjetEtudiantApplication {
 
         } ;
     }
-       //@Bean
+       @Bean
     CommandLineRunner start5(departementRepository departementRepository) {
         return args -> {
             Stream.of("informatique", "éléctrique", "mécanique").forEach(name -> {
@@ -63,7 +65,7 @@ public class ProjetEtudiantApplication {
             });
         };
     }
-     //@Bean
+     @Bean
     CommandLineRunner start4(matiereRepository matiereRepository) {
         return args -> {
             Stream.of("Mathématique", "informatique", "Français").forEach(name -> {
@@ -74,8 +76,22 @@ public class ProjetEtudiantApplication {
         };
     }
     @Bean
+    CommandLineRunner start6(classeRepository classeRepository) {
+        return args -> {
+            Stream.of("DSI21", "DSI22", "DSI23").forEach(name -> {
+                classe c = new classe();
+                c.setNom(name);
+                classeRepository.save(c);
+            });
+        };
+    }
+
+ */
+    @Bean
    PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
    }
+
+
 
 }
