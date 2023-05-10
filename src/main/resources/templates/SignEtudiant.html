@@ -15,29 +15,8 @@
 <body>
 
 <div class="container" id="container">
-    <div class="form-container sign-up-container">
-        <form method="post" th:action="@{/save}">
-            <h2>Create Account</h2>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <input type="text" placeholder="Nom" name="nom"  th:value="${etudiant.nom}">
-            <input type="text" placeholder="Prénom" name="prenom"  th:value="${etudiant.prenom}">
-            <input type="email" placeholder="Email" name="email"  th:value="${etudiant.email}">
-            <input type="password" placeholder="Password" name="password"  th:value="${appUser.password}">
-            <input type="date" placeholder="date de Naissance" name="dateNiassance"  th:value="${etudiant.dateNiassance}">
-            <select class="form-select" aria-label="Default select example" name="genre"   th:value="${etudiant.genre}">
-                <option value="MASCULIN">MASCULIN</option>
-                <option value="FEMININ">FEMININ</option>
-            </select>
-
-            <button type="submit">Sign Up</button>
-        </form>
-    </div>
     <div class="form-container sign-in-container">
-        <form >
+        <form th:action="@{/SignEtudiant}" method="post">
             <h1>Sign in</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -61,24 +40,10 @@
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+                <a th:href="@{/inscription}"><button class="ghost">Sign Up</button></a>
             </div>
         </div>
     </div>
 </div>
-<script>
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    // const container = document.getElementById('container');
-
-    signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-    });
-
-    signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-    });
-</script>
-
 </body>
 </html>
