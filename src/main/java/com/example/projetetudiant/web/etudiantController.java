@@ -73,36 +73,6 @@ public class etudiantController {
         return "redirect:/user/home?page="+page+ "&key=" +key;
     }
 
-
-    /*
-        @GetMapping("/SignEtudiant")
-        public String SignEtudiant(Model model){
-            model.addAttribute("etudiant", new etudiant());
-            return "SignEtudiant.html";
-        }
-        @PostMapping("/SignEtudiant")
-        public String processSignupForm(@ModelAttribute etudiant etudiant) {
-            // Traitez l'étudiant ici
-            etudiantRepository.save(etudiant);
-            // Enregistrez-le dans la base de données, par exemple
-            return "SignEtudiant.html";
-        }
-
-        //@GetMapping("/signup")
-        public String showSignupForm(Model model) {
-
-            return "SignEtudiant.html";
-        }
-
-
-    @GetMapping("/SignEtudiant")
-    public String SignEtudiant(Model model){
-        model.addAttribute("etudiant",new etudiant());
-        model.addAttribute("appUser",new appUser());
-        model.addAttribute("roles",serviceImpl.getAllRoles());
-        return "SignEtudiant";
-    }
-    */
     @GetMapping("/inscription")
     public String inscription(Model model){
         model.addAttribute("etudiant",new etudiant());
@@ -115,10 +85,10 @@ public class etudiantController {
     @PostMapping("/save")
     public String save(Model model, @Valid etudiant etudiant,BindingResult bindingResult,@Valid appUser appUser){
         if (bindingResult.hasErrors()) return "inscription";
+        appUser.setUsername(etudiant.getNom());
         serviceImpl.addUser(appUser.getUsername(),appUser.getPassword(),appUser.getPassword());
         serviceImpl.addRoleToUser(appUser.getUsername(),"ETUDIANT" );
         etudiantRepository.save(etudiant);
-        System.out.println("user" + appUser.getUsername());
         return "redirect:/SignEtudiant";
     }
 

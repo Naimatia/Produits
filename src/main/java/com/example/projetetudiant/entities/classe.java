@@ -23,6 +23,10 @@ public class classe {
 
     @ManyToOne
     private departement departement;
-    @OneToMany(mappedBy = "classe")
+
+    @ManyToMany
+    @JoinTable(name = "classe_matiere",
+            joinColumns = @JoinColumn(name = "classe_id"),
+            inverseJoinColumns = @JoinColumn(name = "matiere_id"))
     private List<matiere> matieres;
 }

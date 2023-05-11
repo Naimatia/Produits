@@ -70,7 +70,18 @@
                     </option>
                 </select>
             </div>
-
+            <div class="form-group">
+                <label class="control-label">Classe :</label>
+                <select name="classe" class="form-control">
+                    <option th:value="${null}">--Please select a classe--</option>
+                    <option th:each="classe : ${classes}"
+                            th:value="${classe.idClas}"
+                            th:text="${classe.nom}"
+                            th:selected="${classe.idClas == selectedClasse}">
+                    </option>
+                </select>
+            </div>
+            <input type="hidden" name="rolename" th:value="${employe.role}"/>
             <div class="form-group">
                 <label class="col-form-label">Role</label>
                 <select class="form-control" name="role" th:field="${employe.role}">

@@ -27,6 +27,7 @@
             <th>Role</th>
             <th>Département</th>
             <th>Matiere</th>
+            <th>Classe</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -40,6 +41,7 @@
             <td th:text="${r.role}"></td>
             <td th:text="${r.departement.nom}"></td>
             <td th:text="${r.matiere.nom}"></td>
+            <td th:text="${r.classe.nom}"></td>
 
             <td>
                 <a class="btn btn-danger btn-sm" th:href="@{/admin/delete(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Delete</a>

@@ -26,7 +26,7 @@ public class ProjetEtudiantApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
-/*
+
      @Bean
     CommandLineRunner start3(etudiantRepository etudiantRepository){
         return  args -> {
@@ -86,7 +86,9 @@ public class ProjetEtudiantApplication {
         };
     }
 
- */
+
+
+
     @Bean
    PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();

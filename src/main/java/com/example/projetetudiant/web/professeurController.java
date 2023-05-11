@@ -46,7 +46,7 @@ public class professeurController {
 
 
 
-    //@GetMapping(value = "/professeur/delete")
+    @GetMapping(value = "/professeur/delete")
     public String delete(Long id,int page, String key){
 
         professeurRepository.deleteById(id);

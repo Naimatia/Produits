@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="templateProfesseur" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      layout:decorate="template1" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container mt-5" layout:fragment="contentBody">
-  <form class="form-inline mb-3" method="get" th:action="@{/professeur/gestionEtudiant}">
+  <form class="form-inline mb-3" method="get" th:action="@{/admin/gestionFaculte}">
     <div class="form-group mx-sm-3 mb-2">
       <input type="search" class="form-control" placeholder="Search" aria-label="Search" name="key" th:value="${key}">
     </div>
@@ -19,19 +19,31 @@
   <table class="table table-bordered">
     <thead class="thead-dark">
     <tr>
-      <th>Nom</th>
-      <th>Prénom</th>
+      <th>departement</th>
+      <th>Classe</th>
+      <th>matieres</th>
       <th>Email</th>
+      <th>Date début travail</th>
+      <th>Role</th>
+      <th>Département</th>
+      <th>Matiere</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="r:${pages}">
+    <tr >
+      <td th:text="${r.id}"></td>
       <td th:text="${r.nom}"></td>
       <td th:text="${r.prenom}"></td>
       <td th:text="${r.email}"></td>
+      <td th:text="${r.dateDebutTravail}"></td>
+      <td th:text="${r.role}"></td>
+      <td th:text="${r.departement.nom}"></td>
+      <td th:text="${}"></td>
+
       <td>
-        <a class="btn btn-danger btn-sm" th:href="@{/professeur/delete(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('CHEFDEP')">Delete</a>
-        <a class="btn btn-info btn-sm" th:href="@{/professeur/editEtudiant(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('CHEFDEP')">Edit</a>
+        <a class="btn btn-danger btn-sm" th:href="@{/admin/delete(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Delete</a>
+        <a class="btn btn-info btn-sm" th:href="@{/admin/edit(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Edit</a>
       </td>
     </tr>
     </tbody>
@@ -39,7 +51,7 @@
   <nav>
     <ul class="pagination">
       <li class="page-item" th:each="int,status:${nbrPages}">
-        <a class="page-link" th:class="${status.index==pageCurrent?'active':''}" th:text="${status.index}" th:href="@{gestionEtudiant(page=${status.index},key=${key})}"></a>
+        <a class="page-link" th:class="${status.index==pageCurrent?'active':''}" th:text="${status.index}" th:href="@{home(page=${status.index},key=${key})}"></a>
       </li>
     </ul>
   </nav>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="templateProfesseur">
+      layout:decorate="template1">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -13,13 +13,13 @@
 <body>
 <div layout:fragment="contentBody">
   <div class="container">
-    <form method="post" th:action="@{/admin/gestionClasse(page=${page},key=${key})}">
+    <form method="post" th:action="@{/admin/gestionClasse}">
       <div>
         <h2>Gestion des departements classes matieres </h2>
       </div>
       <div class="form-group">
         <label class="control-label">Departement:</label>
-        <select name="departement" class="form-control">
+        <select name="departementId" class="form-control">
           <option th:value="${null}">--Please select a department--</option>
           <option th:each="departement : ${departements}"
                   th:value="${departement.iddep}"
@@ -29,29 +29,29 @@
       </div>
       <div class="form-group">
         <label class="control-label">Classe :</label>
-        <select name="classe" class="form-control">
+        <select name="classeId" class="form-control">
           <option th:value="${null}">--Please select a classe--</option>
           <option th:each="classe : ${classes}"
                   th:value="${classe.idClas}"
-                  th:text="${classe.nom}"
-                  th:selected="${classe.idClas == selecteClasse}">
+                  th:text="${classe.nom}">
           </option>
         </select>
       </div>
+
       <div class="form-group">
-        <label class="control-label">Matiere:</label>
-        <select name="departement" class="form-control">
-          <option th:value="${null}">--Please select a department--</option>
-          <option th:each="departement : ${departements}"
-                  th:value="${departement.iddep}"
-                  th:text="${departement.nom}">
-          </option>
-        </select>
+
+        <label>Matieres:</label><br>
+        <!-- loop over matieres and add checkboxes -->
+        <th:block th:each="mat : ${matieres}">
+          <input type="checkbox" id="matiere${mat.idMat}" name="matieres" th:value="${mat.idMat}">
+          <label for="matiere${mat.idMat}"><span th:text="${mat.nom}"></span></label><br>
+        </th:block><br>
       </div>
       <div>
         <button type="submit" class="btn btn-primary">Edit</button>
       </div>
     </form>
+
   </div>
 
 </div>

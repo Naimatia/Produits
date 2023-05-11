@@ -15,12 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -43,6 +49,7 @@ private classeRepository classeRepository;
         model.addAttribute("pageCurrent",page);
         return "home";
     }
+
     @GetMapping(value = "/admin/delete")
     public String delete(Long id, int page, String key) {
 
@@ -64,6 +71,7 @@ private classeRepository classeRepository;
        model.addAttribute("appUser",new appUser());
        model.addAttribute("departements", departementRepository.findAll());
        model.addAttribute("matieres", matiereRepository.findAll());
+       model.addAttribute("classes", classeRepository.findAll());
        model.addAttribute("roles", serviceImpl.getAllRoles());
        return "add";
    }
@@ -71,17 +79,21 @@ private classeRepository classeRepository;
     public String save(Model model, @Valid employe employe, BindingResult bindingResult,
                        @Valid appUser appUser, BindingResult userBindingResult,
                        @RequestParam("departement") Long departementId,
-                       @RequestParam("matiere") Long matiereId){
+                       @RequestParam("matiere") Long matiereId,
+                       @RequestParam("classe") Long classeId){
         String roleName;
         if (bindingResult.hasErrors() || userBindingResult.hasErrors()){
             return "add";
         }
         departement departement = departementRepository.findById(departementId).orElse(null);
         matiere matiere = matiereRepository.findById(matiereId).orElse(null);
+        classe classe = classeRepository.findById(classeId).orElse(null);
+
 
         // Set the departement and matiere to the employe entity
         employe.setDepartement(departement);
         employe.setMatiere(matiere);
+        employe.setClasse(classe);
         // add user
         appUser.setUsername(employe.getNom()); // set the username to the value of nom
       //  appUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
@@ -97,47 +109,48 @@ private classeRepository classeRepository;
 public String gestionClasse(Model model){
     model.addAttribute("departements", departementRepository.findAll());
     model.addAttribute("matieres", matiereRepository.findAll());
-    model.addAttribute("classe", classeRepository.findAll()) ;
+    model.addAttribute("classes", classeRepository.findAll()) ;
     return "gestionClasse";
 }
-    @PostMapping("/admin/gestionClasse")
-    public String addData(@RequestParam String matiereNom, @RequestParam String classeNom, @RequestParam Long departementId, Model model) {
 
-        // Retrieve the department and class based on their IDs
-        departement dept = departementRepository.findById(departementId).orElseThrow(() -> new IllegalArgumentException("Invalid department ID"));
-        classe cls = classeRepository.findById(Long.valueOf(classeNom)).orElseThrow(() -> new IllegalArgumentException("Invalid class ID"));
+@PostMapping("/admin/gestionClasse")
+@Transactional
+public String gestionClasseSubmit(@RequestParam Long departementId, @RequestParam Long classeId,
+                                  @RequestParam(name = "matieres", required = false) String[] matiereIds) {
+    // convert string array to list of Longs
+    List<Long> matiereIdsList = matiereIds != null ? Arrays.stream(matiereIds)
+            .map(Long::parseLong)
+            .collect(Collectors.toList()) : new ArrayList<>();
 
-        // Create a new subject
-        matiere newMatiere = new matiere();
-        newMatiere.setNom(matiereNom);
+    // find the departement and class entities by their IDs
+    departement myDepartement = departementRepository.findById(departementId).orElse(null);
+    classe myClasse = classeRepository.findById(classeId).orElse(null);
 
-        // Add the subject to the class
-        newMatiere.setClasse(cls);
-        cls.getMatieres().add(newMatiere);
-
-        // Add the class to the department
-        cls.setDepartement(dept);
-        dept.getClasses().add(cls);
-
-        // Save the changes to the database
-        matiereRepository.save(newMatiere);
-        classeRepository.save(cls);
-        departementRepository.save(dept);
-
-        return "redirect:/admin/gestionClasse";
-
+    if (myDepartement == null || myClasse == null) {
+        // handle errors here
+        return "gestionClasse";
+    }
+    // add the selected matieres to the class
+    for (Long matiereId : matiereIdsList) {
+        matiere matiere = matiereRepository.findById(matiereId).orElse(null);
+        if (matiere != null) {
+            matiere.setClasse(myClasse);
+            myClasse.getMatieres().add(matiere);
         }
+    }
+
+    // set the department and add the class to it
+    myClasse.setDepartement(myDepartement);
+    myDepartement.getClasses().add(myClasse);
+    departementRepository.save(myDepartement);
+    return "redirect:/admin/home";
+}
 
 
 
 
 
-
-
-
-
-
-            @GetMapping("/admin/edit")
+    @GetMapping("/admin/edit")
     public String edit(Model model,Long id, int page,String key) {
         employe employe = employeRepository.findById(id).orElse(null);
         if (employe == null) throw new RuntimeException("Responsable not found");
@@ -147,13 +160,15 @@ public String gestionClasse(Model model){
         // Set the selected department and matiere in the dropdowns
         model.addAttribute("selectedDepartement", employe.getDepartement().getIddep());
         model.addAttribute("selectedMatiere", employe.getMatiere().getIdMat());
+        model.addAttribute("selectedClasse", employe.getClasse().getIdClas());
+
         if (appUser == null) throw new RuntimeException("User not found");
         // Add user information to model
         model.addAttribute("employe", employe);
         model.addAttribute("appUser", appUser);
         model.addAttribute("departements", departementRepository.findAll());
-       // model.addAttribute("matieres", matiereRepository.findAll());
-        model.addAttribute("classe", matiereRepository.findAll());
+        model.addAttribute("matieres", matiereRepository.findAll());
+        model.addAttribute("classes", classeRepository.findAll());
 
         model.addAttribute("page",page);
         model.addAttribute("key",key);
@@ -164,6 +179,7 @@ public String gestionClasse(Model model){
     public String saveEdit(Model model, @Valid employe employe, BindingResult bindingResult,
                            @Valid appUser appUser, BindingResult userBindingResult,
                            @RequestParam(name = "username") String username,
+                           @RequestParam(name = "rolename") String role,
                            @RequestParam(name = "page", defaultValue = "0") int page,
                            @RequestParam(name = "key", defaultValue = "") String key) {
 
@@ -178,6 +194,8 @@ public String gestionClasse(Model model){
         // Encode the password
         originalAppUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
         serviceImpl.editUser(appUser.getUsername(), originalAppUser.getUsername(), appUser.getPassword(), appUser.getPassword());
+        serviceImpl.removeRoleFromUser(originalAppUser.getUsername(),role);
+        serviceImpl.addRoleToUser(originalAppUser.getUsername(), String.valueOf(employe.getRole()));
         // Save the employe object
         employeRepository.save(employe);
 
