@@ -1,7 +1,11 @@
 package com.example.projetetudiant.security.services;
 
+import com.example.projetetudiant.entities.classe;
+import com.example.projetetudiant.entities.etudiant;
 import com.example.projetetudiant.security.entities.appRole;
 import com.example.projetetudiant.security.entities.appUser;
+
+import java.util.List;
 
 public interface iservice {
     appUser addUser(String username, String password, String rePassword);

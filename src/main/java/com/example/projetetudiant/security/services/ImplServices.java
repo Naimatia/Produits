@@ -1,13 +1,19 @@
 package com.example.projetetudiant.security.services;
 
+import com.example.projetetudiant.entities.classe;
+import com.example.projetetudiant.entities.etudiant;
 import com.example.projetetudiant.security.entities.appRole;
 import com.example.projetetudiant.security.entities.appUser;
 import com.example.projetetudiant.security.repository.appRoleRep;
+import com.example.projetetudiant.repositories.classeRepository;
+import com.example.projetetudiant.repositories.etudiantRepository;
 import com.example.projetetudiant.security.repository.appUserRep;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -15,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ImplServices implements iservice {
     private appRoleRep appRoleRep;
     private appUserRep appUserRep;
+    private classeRepository classeRepository;
+    private etudiantRepository etudiantRepository;
     private PasswordEncoder passwordEncoder;
     @Override
     public appUser addUser(String username,String password,String rePassword) {
@@ -111,8 +119,6 @@ public class ImplServices implements iservice {
         appUser.getListRoles().clear();
         appUser.getListRoles().add(appRole);
     }
-
-
 
 
 

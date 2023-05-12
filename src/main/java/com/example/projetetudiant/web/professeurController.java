@@ -136,7 +136,7 @@ public class professeurController {
     }
 
 
-   /* @GetMapping("/logout")
+  /*  @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         // perform logout actions, e.g., invalidate session
         request.getSession().invalidate();
