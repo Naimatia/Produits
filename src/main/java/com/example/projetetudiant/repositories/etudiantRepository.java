@@ -11,5 +11,4 @@ import java.util.List;
 public interface etudiantRepository extends JpaRepository<etudiant,Long> {
 
     Page<etudiant>  findAllByNomContains(String key, Pageable pageable);
-    etudiant findByUsername(String Username);
 }

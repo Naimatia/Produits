@@ -27,7 +27,7 @@ public class ProjetEtudiantApplication {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
 
-     @Bean
+     //@Bean
     CommandLineRunner start3(etudiantRepository etudiantRepository){
         return  args -> {
 
@@ -46,12 +46,14 @@ public class ProjetEtudiantApplication {
         return args -> {
             serviceImpl.addUser("aziz","1234","1234");
           serviceImpl.addUser("hamza","","");
+            serviceImpl.addUser("naim","","");
          serviceImpl.addRole("ADMIN","");
         serviceImpl.addRole("CHEFDEP","");
         serviceImpl.addRole("PROFESSEUR","");
             serviceImpl.addRole("ETUDIANT","");
             serviceImpl.addRoleToUser("aziz","PROFESSEUR");
          serviceImpl.addRoleToUser("hamza","ADMIN");
+            serviceImpl.addRoleToUser("naim","CHEFDEP");
 
         } ;
     }
@@ -78,22 +80,16 @@ public class ProjetEtudiantApplication {
     @Bean
     CommandLineRunner start6(classeRepository classeRepository) {
         return args -> {
-            Stream.of("DSI21", "DSI22", "DSI23").forEach(name -> {
+            Stream.of("Dsi21", "Sem21", "Ge11").forEach(name -> {
                 classe c = new classe();
-                c.setNom(name);
+               c.setNom(name);
                 classeRepository.save(c);
             });
         };
     }
-
-
-
-
     @Bean
    PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
    }
-
-
 
 }

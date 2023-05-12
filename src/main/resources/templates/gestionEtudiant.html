@@ -22,6 +22,9 @@
       <th>Nom</th>
       <th>Prénom</th>
       <th>Email</th>
+      <th>Classe</th>
+      <th>Département</th>
+      <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -30,12 +33,19 @@
       <td th:text="${r.prenom}"></td>
       <td th:text="${r.email}"></td>
       <td>
+        <span th:if="${r.classe != null}" th:text="${r.classe.nom}"></span>
+      </td>
+      <td>
+        <span th:if="${r.departement != null}" th:text="${r.departement.nom}"></span>
+      </td>
+      <td>
         <a class="btn btn-danger btn-sm" th:href="@{/professeur/delete(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('CHEFDEP')">Delete</a>
         <a class="btn btn-info btn-sm" th:href="@{/professeur/editEtudiant(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('CHEFDEP')">Edit</a>
       </td>
     </tr>
     </tbody>
   </table>
+
   <nav>
     <ul class="pagination">
       <li class="page-item" th:each="int,status:${nbrPages}">

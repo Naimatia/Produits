@@ -1,7 +1,13 @@
 package com.example.projetetudiant.web;
 
+import com.example.projetetudiant.entities.classe;
 import com.example.projetetudiant.entities.etudiant;
+import com.example.projetetudiant.entities.matiere;
+import com.example.projetetudiant.entities.note;
+import com.example.projetetudiant.repositories.noteRepository;
 import com.example.projetetudiant.repositories.ProfesseurRepository;
+import com.example.projetetudiant.repositories.etudiantRepository;
+import com.example.projetetudiant.repositories.matiereRepository;
 import com.example.projetetudiant.repositories.classeRepository;
 import com.example.projetetudiant.repositories.departementRepository;
 import com.example.projetetudiant.security.services.iservice;
@@ -17,11 +23,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class professeurController {
     private ProfesseurRepository professeurRepository;
+    private etudiantRepository etudiantRepository;
+    private matiereRepository matiereRepository;
+    private noteRepository noteRepository;
     private  departementRepository departementRepository;
     private classeRepository classeRepository;
     @GetMapping("/professeur/gestionEtudiant")
@@ -81,20 +91,57 @@ public class professeurController {
     }
 
     @PostMapping("/professeur/editEtudiant")
-    public String saveEditEtudiant(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
+    public String saveEditEtudiant(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "") int page, @RequestParam(name = "key",defaultValue = "") String key){
         if(bindingResult.hasErrors())return "saveEditEtudiant";
         professeurRepository.save(etudiant);
-        return "redirect:/professeur/gestionEtudiant?page="+page+ "&key=" +key;
+        return "redirect:/professeur/gestionEtudiant";
+    }
+    @GetMapping("/ajouter-note")
+    public String showAddNoteForm(Model model) {
+        // Charger les étudiants et les matières depuis la base de données
+        List<etudiant> etudiants = etudiantRepository.findAll();
+        List<matiere> matieres = matiereRepository.findAll();
+
+        // Passer les étudiants et les matières au modèle
+        model.addAttribute("etudiants", etudiants);
+        model.addAttribute("matieres", matieres);
+
+        return "add-note.html"; // Retourne le nom du template (add-note.html)
+    }
+
+    // Traite la soumission du formulaire d'ajout de notes
+    @PostMapping("/ajouter-note")
+    public String addNote(@RequestParam("etudiantId") Long etudiantId,
+                          @RequestParam("matiereId") Long matiereId,
+                          @RequestParam("Dc") double Dc,
+                          @RequestParam("Ds") double Ds) {
+        // Récupérer l'étudiant et la matière depuis la base de données
+        etudiant etudiant = etudiantRepository.findById(etudiantId).orElse(null);
+        matiere matiere = matiereRepository.findById(matiereId).orElse(null);
+
+        if (etudiant != null && matiere != null) {
+            // Créer une nouvelle note
+            note note = new note();
+            note.setEtudiant(etudiant);
+            note.setMatiere(matiere);
+            note.setDc(Dc);
+            note.setDs(Ds);
+
+
+            // Enregistrer la note dans la base de données
+            noteRepository.save(note);
+        }
+
+        return "redirect:/professeur/Liste-Note"; // Redirige vers la page du formulaire
     }
 
 
-  /*  @GetMapping("/logout")
+   /* @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         // perform logout actions, e.g., invalidate session
         request.getSession().invalidate();
         // redirect to login page
         return "redirect:/SignEmploye";
     }
-
-   */
+*/
 }
