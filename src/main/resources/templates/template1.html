@@ -28,12 +28,7 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/admin/gestionClasse}" sec:authorize="hasAuthority('ADMIN')">Gestion</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/etudiant/InterfaceEtudiant}" sec:authorize="hasAuthority('ETUDIANT')">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/etudiant-notes}" sec:authorize="hasAuthority('ETUDIANT')">Note</a>
-                    </li>
+
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">

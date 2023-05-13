@@ -33,12 +33,6 @@ public class employe {
     private role role;
 
 
-
-   /* @Enumerated(EnumType.STRING)
-    private matiere matiere;
-
-
-    */
     public void setRole(role role) {
         this.role = role;
     }

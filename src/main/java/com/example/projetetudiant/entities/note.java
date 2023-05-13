@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -18,11 +16,11 @@ public class note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idnote;
-    @DecimalMin(value = "0.0", inclusive = false)
-    @DecimalMax(value = "20.0", inclusive = false)
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "20.0")
     public double ds;
-    @DecimalMin(value = "0.0", inclusive = false)
-    @DecimalMax(value = "20.0", inclusive = false)
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "20.0")
     private double dc;
     @ManyToOne
     @JoinColumn(name = "etudiant_id")

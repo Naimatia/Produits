@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface employeRepository extends JpaRepository<employe,Long> {
     Page<employe> findAllByNomContains(String key, Pageable pageable);
 
+
+    employe findByNom(String nomProfilConnecte);
 }

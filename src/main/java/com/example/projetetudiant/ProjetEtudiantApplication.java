@@ -27,37 +27,25 @@ public class ProjetEtudiantApplication {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
 
-     //@Bean
-    CommandLineRunner start3(etudiantRepository etudiantRepository){
-        return  args -> {
-
-            Stream.of("mohammed","ahmed","kamal","farah","najat","fouad").forEach(name->{
-                etudiant r=new etudiant();
-                r.setNom(name);
-                r.setPrenom("bentest");
-                r.setEmail(name+"@gmail.com");
-                etudiantRepository.save(r);
-            });
-        };
-    }
-
- //@Bean
+ @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
-            serviceImpl.addUser("aziz","1234","1234");
-          serviceImpl.addUser("hamza","","");
-            serviceImpl.addUser("naim","","");
+      //      serviceImpl.addUser("aziz","1234","1234");
+          serviceImpl.addUser("hamza","0000","0000");
+     //       serviceImpl.addUser("naim","","");
+
          serviceImpl.addRole("ADMIN","");
         serviceImpl.addRole("CHEFDEP","");
         serviceImpl.addRole("PROFESSEUR","");
             serviceImpl.addRole("ETUDIANT","");
-            serviceImpl.addRoleToUser("aziz","PROFESSEUR");
+
+          //  serviceImpl.addRoleToUser("aziz","PROFESSEUR");
          serviceImpl.addRoleToUser("hamza","ADMIN");
-            serviceImpl.addRoleToUser("naim","CHEFDEP");
+        //    serviceImpl.addRoleToUser("naim","CHEFDEP");
 
         } ;
     }
-       //@Bean
+      @Bean
     CommandLineRunner start5(departementRepository departementRepository) {
         return args -> {
             Stream.of("informatique", "éléctrique", "mécanique").forEach(name -> {
@@ -67,20 +55,20 @@ public class ProjetEtudiantApplication {
             });
         };
     }
-     //@Bean
+   @Bean
     CommandLineRunner start4(matiereRepository matiereRepository) {
         return args -> {
-            Stream.of("Mathématique", "informatique", "Français").forEach(name -> {
+            Stream.of("Mathématique", "informatique", "Français","Mecanique","électrique").forEach(name -> {
                 matiere m = new matiere();
                 m.setNom(name);
                 matiereRepository.save(m);
             });
         };
     }
-    //@Bean
+    @Bean
     CommandLineRunner start6(classeRepository classeRepository) {
         return args -> {
-            Stream.of("Dsi21", "Sem21", "Ge11").forEach(name -> {
+            Stream.of("DS21","DSI22" ,"GM21","GM22", "GE11","GE22").forEach(name -> {
                 classe c = new classe();
                c.setNom(name);
                 classeRepository.save(c);

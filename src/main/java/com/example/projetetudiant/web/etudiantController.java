@@ -51,6 +51,7 @@ public class etudiantController {
     public String SignEtudiant(Model model){
         return "SignEtudiant.html";
     }
+
     @GetMapping("/etudiant/InterfaceEtudiant")
     public String InterfaceEtudiant(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,7 +66,7 @@ public class etudiantController {
             // Ajouter l'étudiant au modèle pour l'affichage des détails
             model.addAttribute("etudiant", etudiant);
         }
-        return "InterfaceEtudiant.html";
+        return "InterfaceEtudiant";
     }
     @GetMapping("/etudiant-notes")
     public String showEtudiantNotes(Model model) {
@@ -73,7 +74,6 @@ public class etudiantController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Récupérer le nom du profil de l'utilisateur connecté
         String nomProfilEtudiantConnecte = authentication.getName();
-
         // Rechercher l'étudiant correspondant dans la base de données en utilisant le nom de profil
         etudiant etudiant = etudiantRepository.findByNom(nomProfilEtudiantConnecte);
 
@@ -85,8 +85,20 @@ public class etudiantController {
             // Récupérer les notes de l'étudiant en utilisant son ID
             List<note> notesEtudiant = noteRepository.findByEtudiantId(etudiantId);
 
+            // Calculer la moyenne de l'étudiant
+            double moyenne = notesEtudiant.stream().mapToDouble(note -> (note.getDs() + 2 * note.getDc()) / 3).average().orElse(0);
+            String moyenneFormatted = String.format("%.2f", moyenne);
+
             // Ajouter les notes de l'étudiant au modèle pour l'affichage
             model.addAttribute("notesEtudiant", notesEtudiant);
+            model.addAttribute("moyenneFormatted", moyenneFormatted);
+
+            // Ajouter une variable "admis" ou "refuse" au modèle en fonction de la moyenne de l'étudiant
+            if (moyenne < 10) {
+                model.addAttribute("admis", false);
+            } else {
+                model.addAttribute("admis", true);
+            }
 
             return "etudiant-notes.html";
         } else {

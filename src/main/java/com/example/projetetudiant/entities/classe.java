@@ -24,9 +24,11 @@ public class classe {
     @ManyToOne
     private departement departement;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "classe_matiere",
             joinColumns = @JoinColumn(name = "classe_id"),
             inverseJoinColumns = @JoinColumn(name = "matiere_id"))
     private List<matiere> matieres;
+
+
 }

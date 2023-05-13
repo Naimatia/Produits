@@ -1,20 +1,16 @@
 package com.example.projetetudiant.web;
 
-import com.example.projetetudiant.entities.etudiant;
-import com.example.projetetudiant.entities.matiere;
-import com.example.projetetudiant.entities.note;
-import com.example.projetetudiant.repositories.noteRepository;
-import com.example.projetetudiant.repositories.ProfesseurRepository;
-import com.example.projetetudiant.repositories.etudiantRepository;
-import com.example.projetetudiant.repositories.matiereRepository;
-import com.example.projetetudiant.repositories.classeRepository;
-import com.example.projetetudiant.repositories.departementRepository;
+import com.example.projetetudiant.entities.*;
+import com.example.projetetudiant.repositories.*;
 import com.example.projetetudiant.security.services.ImplServices;
 import com.example.projetetudiant.security.services.iservice;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +30,7 @@ public class professeurController {
     private noteRepository noteRepository;
     private  departementRepository departementRepository;
     private classeRepository classeRepository;
+    private employeRepository employeRepository;
     @GetMapping("/professeur/gestionEtudiant")
     public String gestionEtudiant(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
                                       @RequestParam(name = "size",defaultValue = "6") int size,
@@ -52,8 +49,6 @@ public class professeurController {
     public String InterfaceProfesseur(Model model){
         return "InterfaceProfesseur";
     }
-
-
 
 
     @GetMapping(value = "/professeur/delete")
@@ -82,18 +77,30 @@ public class professeurController {
         professeurRepository.save(etudiant);
         return "redirect:/professeur/gestionEtudiant?page="+page+ "&key=" +key;
     }
-    @GetMapping("/ajouter-note")
-    public String showAddNoteForm(Model model) {
-        // Charger les étudiants et les matières depuis la base de données
-        List<etudiant> etudiants = etudiantRepository.findAll();
-        List<matiere> matieres = matiereRepository.findAll();
 
-        // Passer les étudiants et les matières au modèle
-        model.addAttribute("etudiants", etudiants);
-        model.addAttribute("matieres", matieres);
+@GetMapping("/ajouter-note")
+public String showAddNoteForm(Model model) {
+    // Récupérer l'authentification de l'utilisateur connecté
+    org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // Récupérer le nom du profil de l'utilisateur connecté
+    String nomProfilConnecte = authentication.getName();
+    // Retrieve the class that the user belongs to
+    employe employe = employeRepository.findByNom(nomProfilConnecte);
+    classe classe = employe.getClasse();
+    // Retrieve the list of students in the user's class
+    List<etudiant> etudiants = etudiantRepository.findByClasse(classe);
 
-        return "add-note.html"; // Retourne le nom du template (add-note.html)
-    }
+    // Retrieve the list of all subjects
+    List<matiere> matieres = classe.getMatieres();
+
+    // Pass the list of students and subjects to the view
+    model.addAttribute("etudiants", etudiants);
+    model.addAttribute("matieres", matieres);
+
+    return "add-note.html";
+}
+
+
 
     // Traite la soumission du formulaire d'ajout de notes
     @PostMapping("/ajouter-note")
@@ -118,8 +125,9 @@ public class professeurController {
             noteRepository.save(note);
         }
 
-        return "redirect:/professeur/ListeNote"; // Redirige vers la page du formulaire
+        return "redirect:/professeur/Liste-Note"; // Redirige vers la page du formulaire
     }
+
     @GetMapping("/professeur/Liste-Note")
     public String afficherNotes(Model model) {
         List<note> listeNotes = noteRepository.findAll();

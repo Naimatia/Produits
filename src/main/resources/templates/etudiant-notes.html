@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="templateProfesseur" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      layout:decorate="templateEtudiant" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -9,7 +9,7 @@
         crossorigin="anonymous">
 </head>
 <body>
-<div class="container mt-5" layout:fragment="contentBody">
+<div class="container mt-5" layout:fragment="contentBody1">
   <div class="container">
     <h1 class="mt-4">Notes de l'étudiant</h1>
 
@@ -30,6 +30,13 @@
       </tr>
       </tbody>
     </table>
+    <div class="mt-4">
+      <h2>Moyenne : <span th:text="${moyenneFormatted}"></span></h2>
+      <!-- Afficher un message d'admission ou de refus en fonction de la moyenne de l'étudiant -->
+      <p th:if="${admis}">Félicitations, vous êtes admis !</p>
+      <p th:if="${!admis}">Désolé, vous êtes refusé.</p>
+    </div>
+  </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
