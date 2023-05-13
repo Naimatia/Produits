@@ -119,6 +119,9 @@ public class ImplServices implements iservice {
         appUser.getListRoles().clear();
         appUser.getListRoles().add(appRole);
     }
+    public List<etudiant> getAllEtudiants() {
+        return etudiantRepository.findAll();
+    }
 
 
 

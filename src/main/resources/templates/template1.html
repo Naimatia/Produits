@@ -17,16 +17,22 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/home}">Home</a>
+                        <a class="nav-link" th:href="@{/admin/home}" sec:authorize="hasAuthority('ADMIN')">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/home}">Chercher</a>
+                        <a class="nav-link" th:href="@{/admin/home}" sec:authorize="hasAuthority('ADMIN')">Chercher</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/admin/add}" sec:authorize="hasAuthority('ADMIN')">Ajouter</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/admin/gestionClasse}" sec:authorize="hasAuthority('ADMIN')">Gestion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/etudiant/InterfaceEtudiant}" sec:authorize="hasAuthority('ETUDIANT')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/etudiant-notes}" sec:authorize="hasAuthority('ETUDIANT')">Note</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">

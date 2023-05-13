@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="templateProfesseur" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Détails de l'étudiant</title>
@@ -7,30 +8,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-  <h1>Détails de l'étudiant</h1>
-
-  <h2 th:text="${etudiant.nom + ' ' + etudiant.prenom}"></h2>
-
+<div class="container" layout:fragment="contentBody">
+  <h1>Liste des notes</h1>
   <table class="table">
     <thead>
     <tr>
-      <th>Matière</th>
-      <th>Note Dc</th>
-      <th>Note Ds</th>
+      <th scope="col">Nom de l'étudiant</th>
+      <th scope="col">Prénom de l'étudiant</th>
+      <th scope="col">Nom de la matière</th>
+      <th scope="col">Note DS</th>
+      <th scope="col">Note DC</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="note : ${notes}">
+    <tr th:each="note : ${listeNotes}">
+      <td th:text="${note.etudiant.nom}"></td>
+      <td th:text="${note.etudiant.prenom}"></td>
       <td th:text="${note.matiere.nom}"></td>
-      <td th:text="${note.Dc}"></td>
-      <td th:text="${note.Ds}"></td>
+      <td th:text="${note.ds}"></td>
+      <td th:text="${note.dc}"></td>
     </tr>
     </tbody>
   </table>
 </div>
-
-<!-- Add Bootstrap JS scripts here -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

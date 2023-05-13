@@ -41,7 +41,7 @@ public class ProjetEtudiantApplication {
         };
     }
 
- @Bean
+ //@Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
             serviceImpl.addUser("aziz","1234","1234");
@@ -57,7 +57,7 @@ public class ProjetEtudiantApplication {
 
         } ;
     }
-       @Bean
+       //@Bean
     CommandLineRunner start5(departementRepository departementRepository) {
         return args -> {
             Stream.of("informatique", "éléctrique", "mécanique").forEach(name -> {
@@ -67,7 +67,7 @@ public class ProjetEtudiantApplication {
             });
         };
     }
-     @Bean
+     //@Bean
     CommandLineRunner start4(matiereRepository matiereRepository) {
         return args -> {
             Stream.of("Mathématique", "informatique", "Français").forEach(name -> {
@@ -77,7 +77,7 @@ public class ProjetEtudiantApplication {
             });
         };
     }
-    @Bean
+    //@Bean
     CommandLineRunner start6(classeRepository classeRepository) {
         return args -> {
             Stream.of("Dsi21", "Sem21", "Ge11").forEach(name -> {

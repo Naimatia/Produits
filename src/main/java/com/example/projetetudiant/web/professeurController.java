@@ -1,6 +1,5 @@
 package com.example.projetetudiant.web;
 
-import com.example.projetetudiant.entities.classe;
 import com.example.projetetudiant.entities.etudiant;
 import com.example.projetetudiant.entities.matiere;
 import com.example.projetetudiant.entities.note;
@@ -10,6 +9,7 @@ import com.example.projetetudiant.repositories.etudiantRepository;
 import com.example.projetetudiant.repositories.matiereRepository;
 import com.example.projetetudiant.repositories.classeRepository;
 import com.example.projetetudiant.repositories.departementRepository;
+import com.example.projetetudiant.security.services.ImplServices;
 import com.example.projetetudiant.security.services.iservice;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,20 +63,6 @@ public class professeurController {
         return "redirect:/professeur/InterfaceProfesseur?page="+page+ "&key=" +key;
     }
 
-    //@GetMapping("/admin/add")
-    public String add(Model model){
-        model.addAttribute("etudiant",new etudiant());
-        return "add";
-    }
-
-
-    // @PostMapping("/admin/save")
-    public String saveEtu(Model model, @Valid etudiant etudiant, BindingResult bindingResult){
-        if (bindingResult.hasErrors())return "add";
-        professeurRepository.save(etudiant);
-        return "redirect:/user/home";
-    }
-
     @GetMapping("/professeur/editEtudiant")
     public  String editEtudiant(Model model, Long id, int page,String key){
        etudiant etudiant=professeurRepository.findById(id).orElse(null);
@@ -91,10 +77,10 @@ public class professeurController {
     }
 
     @PostMapping("/professeur/editEtudiant")
-    public String saveEditEtudiant(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "") int page, @RequestParam(name = "key",defaultValue = "") String key){
+    public String saveEditEtudiant(Model model, @Valid etudiant etudiant, BindingResult bindingResult, @RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "key",defaultValue = "") String key){
         if(bindingResult.hasErrors())return "saveEditEtudiant";
         professeurRepository.save(etudiant);
-        return "redirect:/professeur/gestionEtudiant";
+        return "redirect:/professeur/gestionEtudiant?page="+page+ "&key=" +key;
     }
     @GetMapping("/ajouter-note")
     public String showAddNoteForm(Model model) {
@@ -132,16 +118,18 @@ public class professeurController {
             noteRepository.save(note);
         }
 
-        return "redirect:/professeur/Liste-Note"; // Redirige vers la page du formulaire
+        return "redirect:/professeur/ListeNote"; // Redirige vers la page du formulaire
+    }
+    @GetMapping("/professeur/Liste-Note")
+    public String afficherNotes(Model model) {
+        List<note> listeNotes = noteRepository.findAll();
+        model.addAttribute("listeNotes", listeNotes);
+        return "Liste-Note";
     }
 
-
-  /*  @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        // perform logout actions, e.g., invalidate session
-        request.getSession().invalidate();
-        // redirect to login page
-        return "redirect:/SignEmploye";
+    @GetMapping("/professeur/ListeNote")
+    public String ListeNote(Model model){
+        return "Liste-Note.html";
     }
-*/
+
 }

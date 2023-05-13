@@ -12,53 +12,36 @@
 <div class="container" layout:fragment="contentBody">
   <h1>Ajouter une note</h1>
 
-  <form action="/ajouter-note" method="POST">
-    <label for="classe">Classe:</label>
-    <select id="classe" name="classe">
-      <!-- Remplacez les options par les classes associées au professeur -->
-      <option value="Dsi21">DSI21</option>
-      <option value="Sem21">Sem21</option>
-      <option value="Ge11">Ge11</option>
-    </select>
+  <form action="#" th:action="@{/ajouter-note}" method="post">
+    <div class="mb-3">
+      <label for="etudiantId" class="form-label">Étudiant :</label>
+      <select class="form-select" id="etudiantId" name="etudiantId">
+        <option value="">Sélectionner un étudiant</option>
+        <option th:each="etudiant : ${etudiants}" th:value="${etudiant.id}"
+                th:text="${etudiant.nom + ' ' + etudiant.prenom}"></option>
+      </select>
+    </div>
 
-    <label for="etudiant">Étudiant:</label>
-    <select id="etudiant" name="etudiant">
-      <!-- Les étudiants de la classe sélectionnée seront chargés dynamiquement -->
-    </select>
+    <div class="mb-3">
+      <label for="matiereId" class="form-label">Matière :</label>
+      <select class="form-select" id="matiereId" name="matiereId">
+        <option value="">Sélectionner une matière</option>
+        <option th:each="matiere : ${matieres}" th:value="${matiere.idMat}" th:text="${matiere.nom}"></option>
+      </select>
+    </div>
 
-    <label for="ds">Note DS:</label>
-    <input type="number" id="ds" name="ds" min="0" max="20" step="0.1" required>
+    <div class="mb-3">
+      <label for="Dc" class="form-label">Note Dc :</label>
+      <input type="double" class="form-control" id="Dc" name="Dc" required>
+    </div>
 
-    <label for="dc">Note DC:</label>
-    <input type="number" id="dc" name="dc" min="0" max="20" step="0.1" required>
+    <div class="mb-3">
+      <label for="Ds" class="form-label">Note Ds :</label>
+      <input type="double" class="form-control" id="Ds" name="Ds" required>
+    </div>
 
-    <input type="submit" value="Ajouter la note">
+    <button type="submit" class="btn btn-primary">Ajouter</button>
   </form>
 </div>
-  <script>
-    const classeSelect = document.getElementById('classe');
-    const etudiantSelect = document.getElementById('etudiant');
-
-    // Événement lorsque la classe est sélectionnée
-    classeSelect.addEventListener('change', () => {
-      const selectedClasse = classeSelect.value;
-
-      // Appel AJAX pour récupérer les étudiants de la classe sélectionnée
-      fetch(`/etudiants?classe=${selectedClasse}`)
-              .then(response => response.json())
-              .then(data => {
-                etudiantSelect.innerHTML = '';
-
-                // Ajouter les options d'étudiant dynamiquement
-                data.forEach(etudiant => {
-                  const option = document.createElement('option');
-                  option.value = etudiant.id;
-                  option.text = etudiant.nom;
-                  etudiantSelect.appendChild(option);
-                });
-              });
-    });
-  </script>
-
 </body>
 </html>

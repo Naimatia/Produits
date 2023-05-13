@@ -33,35 +33,4 @@ public class note {
     @JoinColumn(name = "matiere_id")
     private matiere matiere;
 
-    public double getDs() {
-        return ds;
-    }
-
-    public void setDs(double ds) {
-        this.ds = ds;
-    }
-
-    public double getDc() {
-        return dc;
-    }
-
-    public void setDc(double dc) {
-        this.dc = dc;
-    }
-
-    public com.example.projetetudiant.entities.etudiant getEtudiant() {
-        return etudiant;
-    }
-
-    public void setEtudiant(com.example.projetetudiant.entities.etudiant etudiant) {
-        this.etudiant = etudiant;
-    }
-
-    public com.example.projetetudiant.entities.matiere getMatiere() {
-        return matiere;
-    }
-
-    public void setMatiere(com.example.projetetudiant.entities.matiere matiere) {
-        this.matiere = matiere;
-    }
 }

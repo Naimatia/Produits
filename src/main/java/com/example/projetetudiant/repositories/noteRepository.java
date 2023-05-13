@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface noteRepository extends JpaRepository<note,Long> {
-    List<note> findByEtudiant(etudiant etudiant);
+    List<note> findByEtudiantId(long id);
 }
