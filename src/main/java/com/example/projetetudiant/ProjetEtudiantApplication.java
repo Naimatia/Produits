@@ -26,23 +26,18 @@ public class ProjetEtudiantApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjetEtudiantApplication.class, args);
     }
-
+/*
  @Bean
     CommandLineRunner start1(iservice serviceImpl){
         return args -> {
-      //      serviceImpl.addUser("aziz","1234","1234");
           serviceImpl.addUser("hamza","0000","0000");
-     //       serviceImpl.addUser("naim","","");
 
          serviceImpl.addRole("ADMIN","");
         serviceImpl.addRole("CHEFDEP","");
         serviceImpl.addRole("PROFESSEUR","");
             serviceImpl.addRole("ETUDIANT","");
 
-          //  serviceImpl.addRoleToUser("aziz","PROFESSEUR");
          serviceImpl.addRoleToUser("hamza","ADMIN");
-        //    serviceImpl.addRoleToUser("naim","CHEFDEP");
-
         } ;
     }
       @Bean
@@ -58,7 +53,7 @@ public class ProjetEtudiantApplication {
    @Bean
     CommandLineRunner start4(matiereRepository matiereRepository) {
         return args -> {
-            Stream.of("Mathématique", "informatique", "Français","Mecanique","électrique").forEach(name -> {
+            Stream.of("Mathématique", "informatique", "Français","Mecanique","électrique","Statique","Anglais","Java","Base Donnee").forEach(name -> {
                 matiere m = new matiere();
                 m.setNom(name);
                 matiereRepository.save(m);
@@ -75,9 +70,17 @@ public class ProjetEtudiantApplication {
             });
         };
     }
+
+
+
+
+ */
+
     @Bean
    PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
    }
+
+
 
 }

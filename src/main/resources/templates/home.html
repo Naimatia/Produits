@@ -39,9 +39,24 @@
             <td th:text="${r.email}"></td>
             <td th:text="${r.dateDebutTravail}"></td>
             <td th:text="${r.role}"></td>
-            <td th:text="${r.departement.nom}"></td>
-            <td th:text="${r.matiere.nom}"></td>
-            <td th:text="${r.classe.nom}"></td>
+            <td>
+                <ul>
+                    <li th:each="departement : ${r.departements}" th:text="${departement.nom}"></li>
+                </ul>
+            </td>
+
+            <td>
+                <ul>
+                    <li th:each="matiere : ${r.matieres}" th:text="${matiere.nom}"></li>
+                </ul>
+            </td>
+
+            <td>
+                <ul>
+                    <li th:each="classe : ${r.classes}" th:text="${classe.nom}"></li>
+                </ul>
+            </td>
+
 
             <td>
                 <a class="btn btn-danger btn-sm" th:href="@{/admin/delete(id=${r.id},page=${pageCurrent},key=${key})}" sec:authorize="hasAuthority('ADMIN')">Delete</a>

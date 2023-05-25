@@ -57,6 +57,7 @@ public class etudiant {
                 ", dateNiassance=" + dateNiassance +
                 ", genre=" + genre +
                 ", departement=" + departement +
+                ", classe=" + classe +
                 '}';
     }
 }

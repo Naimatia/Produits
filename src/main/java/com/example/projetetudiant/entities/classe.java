@@ -30,5 +30,17 @@ public class classe {
             inverseJoinColumns = @JoinColumn(name = "matiere_id"))
     private List<matiere> matieres;
 
+    @ManyToMany(mappedBy = "classes")
+    private List<employe> employes;
 
+    @Override
+    public String toString() {
+        return "classe{" +
+                "idClas=" + idClas +
+                ", nom='" + nom + '\'' +
+                ", departement=" + departement +
+                ", matieres=" + matieres +
+                ", employes=" + employes +
+                '}';
+    }
 }

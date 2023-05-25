@@ -21,7 +21,6 @@ import java.util.List;
 public class ImplServices implements iservice {
     private appRoleRep appRoleRep;
     private appUserRep appUserRep;
-    private classeRepository classeRepository;
     private etudiantRepository etudiantRepository;
     private PasswordEncoder passwordEncoder;
     @Override

@@ -52,37 +52,30 @@
                 </select>
             </div>-->
             <div class="form-group">
-                <label class="control-label">departement :</label>
-                <select name="departement" class="form-control">
-                    <option th:value="${null}">--Please select a departement--</option>
-                    <option th:each="departement : ${departements}"
-                            th:value="${departement.iddep}"
-                            th:text="${departement.nom}">
-                    </option>
-                </select>
-                <span th:errors="${employe.departement}" class="text-danger"> </span>
+                <label>Departements:</label><br>
+                <!-- Loop over departements and add checkboxes -->
+                <th:block th:each="dept : ${departements}">
+                    <input type="checkbox" id="departement${dept.id}" name="departementIds" th:value="${dept.iddep}">
+                    <label for="departement${dept.id}"><span th:text="${dept.nom}"></span></label><br>
+                </th:block><br>
+            </div>
+
+            <div class="form-group">
+                <label>Classes:</label><br>
+                <!-- Loop over classes and add checkboxes -->
+                <th:block th:each="cl : ${classes}">
+                    <input type="checkbox" id="classe${cl.id}" name="classeIds" th:value="${cl.idClas}">
+                    <label for="classe${cl.id}"><span th:text="${cl.nom}"></span></label><br>
+                </th:block><br>
             </div>
             <div class="form-group">
-                <label class="control-label">Matiere :</label>
-                <select name="matiere" class="form-control">
-                    <option th:value="${null}">--Please select a matiere--</option>
-                    <option th:each="matiere : ${matieres}"
-                            th:value="${matiere.idMat}"
-                            th:text="${matiere.nom}">
-                    </option>
-                </select>
-                <span th:errors="${employe.matiere}" class="text-danger"> </span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Classe :</label>
-                <select name="classe" class="form-control">
-                    <option th:value="${null}">--Please select a classe--</option>
-                    <option th:each="classe : ${classes}"
-                            th:value="${classe.idClas}"
-                            th:text="${classe.nom}">
-                    </option>
-                </select>
-                <span th:errors="${employe.classe}" class="text-danger"> </span>
+
+                <label>Matieres:</label><br>
+                <!-- loop over matieres and add checkboxes -->
+                <th:block th:each="mat : ${matieres}">
+                    <input type="checkbox" id="matiere${mat.idMat}" name="matiereIds" th:value="${mat.idMat}">
+                    <label for="matiere${mat.idMat}"><span th:text="${mat.nom}"></span></label><br>
+                </th:block><br>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Role</label>

@@ -21,17 +21,10 @@ public class matiere {
     @Size(min = 4,max = 15)
     private String nom;
 
-    @OneToMany(mappedBy = "matiere")
+    @ManyToMany(mappedBy = "matieres")
     private List<employe> employes;
 
     @ManyToOne
     private  classe classe;
-    @Override
-    public String toString() {
-        return "matiere{" +
-                "idMat=" + idMat +
-                ", nom='" + nom + '\'' +
-                ", employes=" + employes +
-                '}';
-    }
+
 }

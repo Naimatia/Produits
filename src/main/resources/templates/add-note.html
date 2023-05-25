@@ -7,41 +7,116 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css"
         integrity="sha384-Gs3s2mC6y7FkQA7X6UkN7BbG6bHHRN2pg2n7W9n1G/6XyH9EzD+yV8gFoo5bDvWB"
         crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 <div class="container" layout:fragment="contentBody">
   <h1>Ajouter une note</h1>
 
   <form action="#" th:action="@{/ajouter-note}" method="post">
-    <div class="mb-3">
-      <label for="etudiantId" class="form-label">Étudiant :</label>
-      <select class="form-select" id="etudiantId" name="etudiantId">
-        <option value="">Sélectionner un étudiant</option>
-        <option th:each="etudiant : ${etudiants}" th:value="${etudiant.id}"
-                th:text="${etudiant.nom + ' ' + etudiant.prenom}"></option>
+    <div class="form-group">
+      <label class="control-label">Classe :</label>
+      <select id="classeId" name="classeId" class="form-control">
+        <option th:value="${null}">--Please select a class--</option>
+        <option th:each="classe : ${classes}"
+                th:value="${classe.idClas}"
+                th:text="${classe.nom}">
+        </option>
       </select>
     </div>
-
-    <div class="mb-3">
-      <label for="matiereId" class="form-label">Matière :</label>
-      <select class="form-select" id="matiereId" name="matiereId">
-        <option value="">Sélectionner une matière</option>
-        <option th:each="matiere : ${matieres}" th:value="${matiere.idMat}" th:text="${matiere.nom}"></option>
+    <div class="form-group">
+      <label class="control-label">Departement:</label>
+      <select id="departementId" name="departementId" class="form-control">
+        <option th:value="${null}">--Please select a department--</option>
+        <option th:each="departement : ${departements}"
+                th:value="${departement.iddep}"
+                th:text="${departement.nom}">
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Etudiant :</label>
+      <select id="etudiantId" name="etudiantId" class="form-control">
+        <option th:value="${null}">--Please select a student--</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Matiere :</label>
+      <select id="matiereId" name="matiereId" class="form-control">
+        <option th:value="${null}">--Please select a subject--</option>
       </select>
     </div>
 
     <div class="mb-3">
       <label for="Dc" class="form-label">Note Dc :</label>
-      <input type="double" class="form-control" id="Dc" name="Dc" required>
+      <input type="number" step="0.01" class="form-control" id="Dc" name="Dc" required>
     </div>
 
     <div class="mb-3">
       <label for="Ds" class="form-label">Note Ds :</label>
-      <input type="double" class="form-control" id="Ds" name="Ds" required>
+      <input type="number" step="0.01" class="form-control" id="Ds" name="Ds" required>
     </div>
 
     <button type="submit" class="btn btn-primary">Ajouter</button>
   </form>
 </div>
+
+
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script >
+  $(document).ready(function() {
+    // Handler for class select change event
+    $('#classeId').change(function() {
+      loadStudents();
+    });
+
+    // Handler for department select change event
+    $('#departementId').change(function() {
+      loadStudents();
+    });
+
+    // Function to load students based on selected class and department
+    function loadStudents() {
+      var classId = $('#classeId').val();
+      var departmentId = $('#departementId').val();
+
+      // Send AJAX request to fetch students
+      $.ajax({
+        url: '/fetch-students',
+        type: 'GET',
+        data: {
+          classId: classId,
+          departmentId: departmentId
+        },
+        success: function(data) {
+          // Populate the students dropdown with the retrieved data
+          var etudiantsDropdown = $("#etudiantId");
+          etudiantsDropdown.empty();
+          etudiantsDropdown.append('<option value="">-- Please select a student --</option>');
+          if (data.etudiantDTOs) {
+            data.etudiantDTOs.forEach(function(etudiant) {
+              etudiantsDropdown.append('<option value="' + etudiant.id + '">' + etudiant.nom + '</option>');
+            });
+          }
+
+          // Populate the subjects dropdown with the retrieved data
+          var matieresDropdown = $("#matiereId");
+          matieresDropdown.empty();
+          matieresDropdown.append('<option value="">-- Please select a subject --</option>');
+          if (data.matiereDTOs) {
+            data.matiereDTOs.forEach(function(matiere) {
+              matieresDropdown.append('<option value="' + matiere.id + '">' + matiere.nom + '</option>');
+            });
+          }
+    },
+        error: function(jqXHR, textStatus, errorThrown) {
+        console.log('Error occurred while fetching students.');
+      }
+    });
+  }
+
+  });
+</script>

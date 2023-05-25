@@ -11,6 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -36,11 +38,24 @@ public class employe {
     public void setRole(role role) {
         this.role = role;
     }
+    @ManyToMany
+    @JoinTable(name = "employe_departement",
+            joinColumns = @JoinColumn(name = "employe_id"),
+            inverseJoinColumns = @JoinColumn(name = "departement_id"))
+    private List<departement> departements;
 
-    @ManyToOne
-    private departement departement;
-    @ManyToOne
-    private matiere matiere;
-    @ManyToOne
-    private  classe classe;
+    @ManyToMany
+    @JoinTable(name = "employe_matiere",
+            joinColumns = @JoinColumn(name = "employe_id"),
+            inverseJoinColumns = @JoinColumn(name = "matiere_id"))
+    private List<matiere> matieres;
+
+    @ManyToMany
+    @JoinTable(name = "employe_classe",
+            joinColumns = @JoinColumn(name = "employe_id"),
+            inverseJoinColumns = @JoinColumn(name = "classe_id"))
+    private List<classe> classes;
+
+
+
 }

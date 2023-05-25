@@ -36,7 +36,7 @@ private  departementRepository departementRepository;
 private matiereRepository matiereRepository;
 private classeRepository classeRepository;
     private iservice serviceImpl;
-
+/*
     @GetMapping("/admin/home")
     public String home(Model model, @RequestParam(name = "page",defaultValue = "0") int page,
                        @RequestParam(name = "size",defaultValue = "6") int size,
@@ -49,6 +49,28 @@ private classeRepository classeRepository;
         model.addAttribute("pageCurrent",page);
         return "home";
     }
+
+ */
+@GetMapping("/admin/home")
+public String home(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                   @RequestParam(name = "size", defaultValue = "6") int size,
+                   @RequestParam(name = "key", defaultValue = "") String key) {
+    Page<employe> responsablePage = employeRepository.findAllByNomContains(key, PageRequest.of(page, size));
+
+    model.addAttribute("pages", responsablePage.getContent());
+    model.addAttribute("nbrPages", new int[responsablePage.getTotalPages()]);
+    model.addAttribute("key", key);
+    model.addAttribute("pageCurrent", page);
+
+    // Fetch individual collections
+    for (employe emp : responsablePage.getContent()) {
+        emp.setDepartements(departementRepository.findByEmployes(emp));
+        emp.setMatieres(matiereRepository.findByEmployes(emp));
+        emp.setClasses(classeRepository.findByEmployes(emp));
+    }
+
+    return "home";
+}
 
     @GetMapping(value = "/admin/delete")
     public String delete(Long id, int page, String key) {
@@ -65,46 +87,69 @@ private classeRepository classeRepository;
         return "redirect:/admin/home?page=" + page + "&key=" + key;
     }
 
-   @GetMapping("/admin/add")
-   public String add(Model model){
-       model.addAttribute("employe",new employe());
-       model.addAttribute("appUser",new appUser());
-       model.addAttribute("departements", departementRepository.findAll());
-       model.addAttribute("matieres", matiereRepository.findAll());
-       model.addAttribute("classes", classeRepository.findAll());
-       model.addAttribute("roles", serviceImpl.getAllRoles());
-       return "add";
-   }
+    @GetMapping("/admin/add")
+    public String add(Model model) {
+        model.addAttribute("employe", new employe());
+        model.addAttribute("appUser", new appUser());
+        model.addAttribute("departements", departementRepository.findAll());
+        model.addAttribute("matieres", matiereRepository.findAll());
+        model.addAttribute("classes", classeRepository.findAll());
+        model.addAttribute("roles", serviceImpl.getAllRoles());
+        return "add";
+    }
+
     @PostMapping("/admin/save")
+    @Transactional
     public String save(Model model, @Valid employe employe, BindingResult bindingResult,
                        @Valid appUser appUser, BindingResult userBindingResult,
-                       @RequestParam("departement") Long departementId,
-                       @RequestParam("matiere") Long matiereId,
-                       @RequestParam("classe") Long classeId){
-        String roleName;
-        if (bindingResult.hasErrors() || userBindingResult.hasErrors()){
+                       @RequestParam("departementIds") List<Long> departementIds,
+                       @RequestParam("matiereIds") List<Long> matiereIds,
+                       @RequestParam("classeIds") List<Long> classeIds) {
+        if (bindingResult.hasErrors() || userBindingResult.hasErrors()) {
             return "add";
         }
-        departement departement = departementRepository.findById(departementId).orElse(null);
-        matiere matiere = matiereRepository.findById(matiereId).orElse(null);
-        classe classe = classeRepository.findById(classeId).orElse(null);
 
+        List<departement> departements = departementRepository.findAllById(departementIds);
+        List<matiere> matieres = matiereRepository.findAllById(matiereIds);
+        List<classe> classes = classeRepository.findAllById(classeIds);
 
-        // Set the departement and matiere to the employe entity
-        employe.setDepartement(departement);
-        employe.setMatiere(matiere);
-        employe.setClasse(classe);
-        // add user
-        appUser.setUsername(employe.getNom()); // set the username to the value of nom
-      //  appUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
-        serviceImpl.addUser(appUser.getUsername(), appUser.getPassword(), appUser.getPassword());
-            roleName = String.valueOf(employe.getRole());
-          serviceImpl.addRoleToUser(appUser.getUsername(),roleName );
+        // Set the departements, matieres, and classes to the employe entity
+        employe.setDepartements(departements);
+        employe.setMatieres(matieres);
+        employe.setClasses(classes);
 
+        // Save the employe entity to the employe table
         employeRepository.save(employe);
+
+        // Add the employe to the departements
+        for (departement dept : departements) {
+            dept.getEmployes().add(employe);
+            departementRepository.save(dept);
+        }
+
+        // Add the employe to the classes
+        for (classe cl : classes) {
+            cl.getEmployes().add(employe);
+            classeRepository.save(cl);
+        }
+
+        // Add the employe to the matieres
+        for (matiere mat : matieres) {
+            mat.getEmployes().add(employe);
+            matiereRepository.save(mat);
+        }
+
+        // Add user
+        appUser.setUsername(employe.getNom()); // set the username to the value of nom
+        serviceImpl.addUser(appUser.getUsername(), appUser.getPassword(), appUser.getPassword());
+        String roleName = String.valueOf(employe.getRole());
+        serviceImpl.addRoleToUser(appUser.getUsername(), roleName);
+
         return "redirect:/admin/home";
     }
-// add a new subject to a class and a new class to a department
+
+
+    // add a new subject to a class and a new class to a department
 @GetMapping("/admin/gestionClasse")
 public String gestionClasse(Model model){
     model.addAttribute("departements", departementRepository.findAll());
@@ -146,61 +191,74 @@ public String gestionClasseSubmit(@RequestParam Long departementId, @RequestPara
     return "redirect:/admin/home";
 }
 
-
-
-
-
-    @GetMapping("/admin/edit")
-    public String edit(Model model,Long id, int page,String key) {
-        employe employe = employeRepository.findById(id).orElse(null);
-        if (employe == null) throw new RuntimeException("Responsable not found");
-        // Load user information
-        appUser appUser = serviceImpl.loadUserByUsername(employe.getNom());
-
-        // Set the selected department and matiere in the dropdowns
-        model.addAttribute("selectedDepartement", employe.getDepartement().getIddep());
-        model.addAttribute("selectedMatiere", employe.getMatiere().getIdMat());
-        model.addAttribute("selectedClasse", employe.getClasse().getIdClas());
-
-        if (appUser == null) throw new RuntimeException("User not found");
-        // Add user information to model
-        model.addAttribute("employe", employe);
-        model.addAttribute("appUser", appUser);
-        model.addAttribute("departements", departementRepository.findAll());
-        model.addAttribute("matieres", matiereRepository.findAll());
-        model.addAttribute("classes", classeRepository.findAll());
-
-        model.addAttribute("page",page);
-        model.addAttribute("key",key);
-        return "edit";
+@GetMapping("/admin/edit")
+public String edit(Model model, @RequestParam(name = "id") Long id) {
+    employe employe = employeRepository.findById(id).orElse(null);
+    if (employe == null) {
+        throw new RuntimeException("Employe not found");
     }
+
+    // Load user information
+    appUser appUser = serviceImpl.loadUserByUsername(employe.getNom());
+    if (appUser == null) {
+        throw new RuntimeException("User not found");
+    }
+
+    // Fetch specific departments, classes, and matieres associated with the employee
+    List<departement> employeDepartements = departementRepository.findByEmployes(employe);
+    List<matiere> employeMatieres = matiereRepository.findByEmployes(employe);
+    List<classe> employeClasses = classeRepository.findByEmployes(employe);
+
+    // Set the fetched collections to the employe object
+    employe.setDepartements(employeDepartements);
+    employe.setMatieres(employeMatieres);
+    employe.setClasses(employeClasses);
+
+    // Set the selected values in the model for rendering in the view
+    model.addAttribute("employe", employe);
+    model.addAttribute("appUser", appUser);
+    model.addAttribute("departements", employeDepartements);
+    model.addAttribute("matieres", employeMatieres);
+    model.addAttribute("classes", employeClasses);
+
+    return "edit";
+}
+
+
 
     @PostMapping("/admin/edit")
     public String saveEdit(Model model, @Valid employe employe, BindingResult bindingResult,
                            @Valid appUser appUser, BindingResult userBindingResult,
-                           @RequestParam(name = "username") String username,
-                           @RequestParam(name = "rolename") String role,
                            @RequestParam(name = "page", defaultValue = "0") int page,
-                           @RequestParam(name = "key", defaultValue = "") String key) {
+                           @RequestParam(name = "key", defaultValue = "") String key,
+                           @RequestParam(name = "selectedDepartements", required = false) List<Long> selectedDepartementIds,
+                           @RequestParam(name = "selectedMatieres", required = false) List<Long> selectedMatiereIds,
+                           @RequestParam(name = "selectedClasses", required = false) List<Long> selectedClassIds) {
 
         if (bindingResult.hasErrors() || userBindingResult.hasErrors()) {
             return "edit";
         }
-        // Get the original appUser object before the update
-        appUser originalAppUser = serviceImpl.loadUserByUsername(username);
-        // Set the new username
-        originalAppUser.setUsername(employe.getNom());
-        System.out.println("nom  "+ originalAppUser.getUsername());
-        // Encode the password
-        originalAppUser.setPassword(appUser.getPasswordEncoder().encode(appUser.getPassword()));
-        serviceImpl.editUser(appUser.getUsername(), originalAppUser.getUsername(), appUser.getPassword(), appUser.getPassword());
-        serviceImpl.removeRoleFromUser(originalAppUser.getUsername(),role);
-        serviceImpl.addRoleToUser(originalAppUser.getUsername(), String.valueOf(employe.getRole()));
+
+        // Fetch the selected departements, matieres, and classes based on their IDs
+        List<departement> selectedDepartements = departementRepository.findAllById(selectedDepartementIds);
+        List<matiere> selectedMatieres = matiereRepository.findAllById(selectedMatiereIds);
+        List<classe> selectedClasses = classeRepository.findAllById(selectedClassIds);
+
+        // Set the selected departements, matieres, and classes to the employe entity
+        employe.setDepartements(selectedDepartements);
+        employe.setMatieres(selectedMatieres);
+        employe.setClasses(selectedClasses);
+
         // Save the employe object
         employeRepository.save(employe);
 
+        // Add any additional logic or operations as needed
+
         return "redirect:/admin/home?page=" + page + "&key=" + key;
     }
+
+
+
     @GetMapping("/")
     public String racine(){
         return "racine.html";

@@ -45,42 +45,44 @@
             </div>
             <div class="form-group">
                 <label for="dt">Date debut travail</label>
-                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" th:value="${employe.dateDebutTravail}">
+                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" >
                 <span th:errors="${employe.dateDebutTravail}"></span>
             </div>
+
             <div class="form-group">
-                <label class="control-label">Departement:</label>
-                <select name="departement" class="form-control">
-                    <option th:value="${null}">--Please select a department--</option>
-                    <option th:each="departement : ${departements}"
-                            th:value="${departement.iddep}"
-                            th:text="${departement.nom}"
-                            th:selected="${departement.iddep == selectedDepartement}">
-                    </option>
-                </select>
+                <label class="control-label">Département:</label>
+                <div>
+                    <label th:each="departement : ${departements}">
+                        <input type="checkbox" name="selectedDepartements" th:value="${departement.iddep}"
+                               th:checked="${employe.departements != null and employe.departements.contains(departement)}"/>
+                        <span th:text="${departement.nom}"></span>
+                    </label>
+                </div>
             </div>
+
             <div class="form-group">
-                <label class="control-label">Matiere:</label>
-                <select name="matiere" class="form-control">
-                    <option th:value="${null}">--Please select a matiere--</option>
-                    <option th:each="matiere : ${matieres}"
-                            th:value="${matiere.idMat}"
-                            th:text="${matiere.nom}"
-                            th:selected="${matiere.idMat == selectedMatiere}">
-                    </option>
-                </select>
+                <label class="control-label">Matière:</label>
+                <div>
+                    <label th:each="matiere : ${matieres}">
+                        <input type="checkbox" name="selectedMatieres" th:value="${matiere.idMat}"
+                               th:checked="${employe.matieres.contains(matiere)}"/>
+                        <span th:text="${matiere.nom}"></span>
+                    </label>
+                </div>
             </div>
+
             <div class="form-group">
-                <label class="control-label">Classe :</label>
-                <select name="classe" class="form-control">
-                    <option th:value="${null}">--Please select a classe--</option>
-                    <option th:each="classe : ${classes}"
-                            th:value="${classe.idClas}"
-                            th:text="${classe.nom}"
-                            th:selected="${classe.idClas == selectedClasse}">
-                    </option>
-                </select>
+                <label class="control-label">Classe:</label>
+                <div>
+                    <label th:each="classe : ${classes}">
+                        <input type="checkbox" name="selectedClasses" th:value="${classe.idClas}"
+                               th:checked="${employe.classes.contains(classe)}"/>
+                        <span th:text="${classe.nom}"></span>
+                    </label>
+                </div>
             </div>
+
+
             <input type="hidden" name="rolename" th:value="${employe.role}"/>
             <div class="form-group">
                 <label class="col-form-label">Role</label>
