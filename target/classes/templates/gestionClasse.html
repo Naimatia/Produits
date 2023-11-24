@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!-- Ajouter les liens vers les fichiers CSS et JavaScript de Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div layout:fragment="contentBody">
+  <div class="container">
+    <form method="post" th:action="@{/admin/gestionClasse}">
+      <div>
+        <h2>Gestion des departements classes matieres </h2>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Departement:</label>
+        <select name="departementId" class="form-control">
+          <option th:value="${null}">--Please select a department--</option>
+          <option th:each="departement : ${departements}"
+                  th:value="${departement.iddep}"
+                  th:text="${departement.nom}">
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Classe :</label>
+        <select name="classeId" class="form-control">
+          <option th:value="${null}">--Please select a classe--</option>
+          <option th:each="classe : ${classes}"
+                  th:value="${classe.idClas}"
+                  th:text="${classe.nom}">
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+
+        <label>Matieres:</label><br>
+        <!-- loop over matieres and add checkboxes -->
+        <th:block th:each="mat : ${matieres}">
+          <input type="checkbox" id="matiere${mat.idMat}" name="matieres" th:value="${mat.idMat}">
+          <label for="matiere${mat.idMat}"><span th:text="${mat.nom}"></span></label><br>
+        </th:block><br>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Edit</button>
+      </div>
+    </form>
+
+  </div>
+
+</div>
+</body>
+</html>

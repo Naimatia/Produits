@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in || Sign up from</title>
+  <!-- font awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- css stylesheet -->
+  <link href="/css/signin.css" rel="stylesheet" type="text/css">
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+</head>
+<body>
+
+<div class="container">
+    <form method="post" th:action="@{/save}" >
+      <h2>INSCRIPTION</h2>
+      <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <input type="text" placeholder="Nom" name="nom"  th:value="${etudiant.nom}">
+      <input type="text" placeholder="Prénom" name="prenom"  th:value="${etudiant.prenom}">
+      <input type="email" placeholder="Email" name="email"  th:value="${etudiant.email}">
+      <input type="password" placeholder="Password" name="password"  th:value="${etudiant.password}">
+      <input type="date" placeholder="date de Naissance" name="dateNiassance"  th:value="${etudiant.dateNiassance}">
+      <select class="form-select" aria-label="Default select example" name="genre"   th:value="${etudiant.genre}">
+        <option value="MASCULIN">MASCULIN</option>
+        <option value="FEMININ">FEMININ</option>
+      </select>
+      <button type="submit">Sign Up</button>
+    </form>
+
+</div>
+</body>
+</html>

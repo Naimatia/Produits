@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="templateProfesseur" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste Note</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css"
+        integrity="sha384-Gs3s2mC6y7FkQA7X6UkN7BbG6bHHRN2pg2n7W9n1G/6XyH9EzD+yV8gFoo5bDvWB"
+        crossorigin="anonymous">
+</head>
+<body>
+<div class="container" layout:fragment="contentBody">
+  <h1>Liste des notes</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Nom de l'étudiant</th>
+      <th scope="col">Prénom de l'étudiant</th>
+      <th scope="col">Nom de la matière</th>
+      <th scope="col">Note DS</th>
+      <th scope="col">Note DC</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="note : ${listeNotes}">
+      <td th:text="${note.etudiant.nom}"></td>
+      <td th:text="${note.etudiant.prenom}"></td>
+      <td th:text="${note.matiere.nom}"></td>
+      <td th:text="${note.ds}"></td>
+      <td th:text="${note.dc}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

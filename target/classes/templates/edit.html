@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Ajouter les liens vers les fichiers CSS et JavaScript de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div layout:fragment="contentBody">
+    <div class="container">
+        <form method="post" th:action="@{/admin/edit(page=${page},key=${key})}">
+            <div>
+                <h2>Modifier Le Responsable</h2>
+            </div>
+            <input type="hidden" name="username" th:value="${appUser.username}"/>
+            <div class="form-group">
+                <label>id </label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="id" th:value="${employe.id}" readonly>
+                <span th:errors="${employe.id}" ></span>
+            </div>
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp" name="nom" th:value="${employe.nom}">
+                <span th:errors="${employe.nom}" ></span>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom</label>
+                <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp" name="prenom" th:value="${employe.prenom}">
+                <span th:errors="${employe.prenom}"></span>
+            </div>
+            <div class="form-group">
+                <label for="Email" >Email</label>
+                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" name="email" th:value="${employe.email}">
+                <span th:errors="${employe.email}"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" aria-describedby="emailHelp" name="password" th:value="${appUser.password}">
+                <span th:errors="${appUser.password}"></span>
+            </div>
+            <div class="form-group">
+                <label for="dt">Date debut travail</label>
+                <input type="date" class="form-control" id="dt" aria-describedby="emailHelp" name="dateDebutTravail" >
+                <span th:errors="${employe.dateDebutTravail}"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Département:</label>
+                <div>
+                    <label th:each="departement : ${departements}">
+                        <input type="checkbox" name="selectedDepartements" th:value="${departement.iddep}"
+                               th:checked="${employe.departements != null and employe.departements.contains(departement)}"/>
+                        <span th:text="${departement.nom}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Matière:</label>
+                <div>
+                    <label th:each="matiere : ${matieres}">
+                        <input type="checkbox" name="selectedMatieres" th:value="${matiere.idMat}"
+                               th:checked="${employe.matieres.contains(matiere)}"/>
+                        <span th:text="${matiere.nom}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Classe:</label>
+                <div>
+                    <label th:each="classe : ${classes}">
+                        <input type="checkbox" name="selectedClasses" th:value="${classe.idClas}"
+                               th:checked="${employe.classes.contains(classe)}"/>
+                        <span th:text="${classe.nom}"></span>
+                    </label>
+                </div>
+            </div>
+
+
+            <input type="hidden" name="rolename" th:value="${employe.role}"/>
+            <div class="form-group">
+                <label class="col-form-label">Role</label>
+                <select class="form-control" name="role" th:field="${employe.role}">
+                    <option value="PROFESSEUR" th:selected="${employe.role == 'PROFESSEUR'}">Professeur</option>
+                    <option value="CHEFDEP" th:selected="${employe.role == 'CHEFDEP'}">ChefDep</option>
+                </select>
+                <span th:errors="${employe.role}" class="text-danger"></span>
+            </div>
+
+
+
+            <div>
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

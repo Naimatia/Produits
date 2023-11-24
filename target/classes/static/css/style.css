@@ -1,0 +1,136 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/* navbar top */
+@media screen and (max-width:420px){
+    .iset img{
+        width: 20px;
+    }
+}
+.logo h3{
+    font-weight: bold;
+    margin-left: 700px;
+    margin-top: 10px;
+}
+.iset img {
+    margin-right: 20px;
+    margin-top: 15px;
+}
+@media screen and (max-width:420px){
+    .logo h3{
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width:420px){
+    .icons i img{
+        width: 20px;
+    }
+}
+/* navbar top */
+
+/* main content */
+.main-content{
+    width: 100%;
+    height: 110vh;
+    background-image: url(../image/iset.jpg);
+    background-size: cover;
+}
+
+/* navbar */
+#navbar-color{
+    background-color: #4eb9d9;
+}
+.navbar-nav{
+    margin: auto;
+}
+.nav-link{
+    margin-left: 20px;
+    font-weight: bold;
+    color: white;
+    transition: 0.7s ease;
+    cursor: pointer;
+}
+.nav-link:hover{
+    color: black;
+}
+/* navbar */
+
+/* content */
+.content{
+    margin-top: 450px;
+    margin-left: 60px;
+}
+.content h1{
+    font-size: 50px;
+    color: white;
+}
+.content h3{
+    color: white;
+    font-size: 20px;
+}
+#btn1 button{
+    width: 150px;
+    height: 32px;
+    background: white;
+    border: 1px solid black;
+    letter-spacing: 3px;
+    font-weight: bold;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+#btn1 button:hover{
+    background-color: transparent;
+}
+
+@media screen and (max-width:420px){
+    .content h1{
+        font-size: 30px;
+    }
+}
+/* content */
+
+/* main content */
+
+/* card1 */
+#btn2 button{
+    width: 100px;
+    height: 30px;
+    background: transparent;
+    border: 1px solid black;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+#btn2 button:hover{
+    background-color: rgba(238,224,208);
+}
+
+/* card1 */
+
+/* footer */
+#footer{
+    width: 100%;
+    background-color: black;
+    margin-top: 100px;
+}
+#footer h1{
+    color: white;
+    padding-top: 30px;
+}
+#footer p{
+    color: white;
+}
+.icons i{
+    color: rgba(238,224,208);
+    font-size: 30px;
+    cursor: pointer;
+}
+.copyright{
+    color: white;
+    margin-top: 20px;
+}
+.credite{
+    color: white;
+}
+/* footer */
